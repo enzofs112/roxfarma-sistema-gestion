@@ -59,7 +59,6 @@ roxfarma/
 │   └── tsconfig.json
 ├── database/             # Scripts SQL
 │   ├── schema.sql
-│   └── install.bat
 └── README.md
 ```
 
@@ -76,9 +75,8 @@ roxfarma/
 
 1. **Configurar base de datos**:
    ```bash
-   cd database
    # Ejecutar schema.sql en MySQL
-   mysql -u root -p < schema.sql
+   mysql -u root -p < database/schema.sql
    ```
 
 2. **Configurar application.properties**:
@@ -175,8 +173,8 @@ npm test
 
 ## 📈 Estado del Proyecto
 
-- ✅ Backend: 100% completado (24 tareas)
-- 🚧 Frontend: En desarrollo (tareas 27-36)
+- ✅ Backend: 100% completado 
+- 🚧 Frontend: En desarrollo 
 - 📊 Progreso total: ~40%
 
 ## 🌳 Flujo de Git
@@ -189,16 +187,15 @@ main (rama principal estable)
 
 ## 👨‍💻 Equipo de Desarrollo
 
-Proyecto académico desarrollado para la Universidad.
+- Segundo Silva Ochoa
+- Enzo Siapo Flores
+- Jairo Yarleque Cornejo
+- Angel Rivera Galdos 
 
 ## 📄 Licencia
 
 Proyecto académico - Todos los derechos reservados.
 
-## 📞 Soporte
-
-Para consultas académicas, contactar al equipo de desarrollo.
-
 ---
 
-**Desarrollado con ❤️ para RoxFarma**
+**Desarrollado para el curso Integrador de Sistemas**

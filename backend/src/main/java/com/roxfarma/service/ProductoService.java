@@ -15,15 +15,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Servicio de lógica de negocio para gestión de Productos.
- * 
- * Responsabilidades:
- * - CRUD de productos
- * - Validación de datos
- * - Generación de alertas de stock bajo
- * - Generación de alertas de vencimiento
- * 
- * @author Sistema RoxFarma
+ * Servicio de lógica de negocio para gestión de Productos
+ * @author grupo2
  */
 @Service
 @RequiredArgsConstructor
@@ -33,19 +26,14 @@ public class ProductoService {
     private final ProductoRepository productoRepository;
     private final CategoriaRepository categoriaRepository;
     
-    /**
-     * Crea un nuevo producto.
-     */
     @Transactional
     public Producto crearProducto(ProductoDTO dto) {
         log.info("Creando producto: {}", dto.getNombre());
         
-        // Validar que la categoría existe
         Categoria categoria = categoriaRepository.findById(dto.getIdCategoria())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Categoría no encontrada con ID: " + dto.getIdCategoria()));
         
-        // Crear producto
         Producto producto = new Producto();
         producto.setNombre(dto.getNombre());
         producto.setDescripcion(dto.getDescripcion());
@@ -60,10 +48,7 @@ public class ProductoService {
         
         return productoGuardado;
     }
-    
-    /**
-     * Actualiza un producto existente.
-     */
+
     @Transactional
     public Producto actualizarProducto(Long id, ProductoDTO dto) {
         log.info("Actualizando producto ID: {}", id);
@@ -71,7 +56,6 @@ public class ProductoService {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado con ID: " + id));
         
-        // Validar categoría si cambió
         if (!producto.getCategoria().getIdCategoria().equals(dto.getIdCategoria())) {
             Categoria categoria = categoriaRepository.findById(dto.getIdCategoria())
                     .orElseThrow(() -> new ResourceNotFoundException(
@@ -79,7 +63,6 @@ public class ProductoService {
             producto.setCategoria(categoria);
         }
         
-        // Actualizar campos
         producto.setNombre(dto.getNombre());
         producto.setDescripcion(dto.getDescripcion());
         producto.setPrecio(dto.getPrecio());
@@ -89,9 +72,7 @@ public class ProductoService {
         return productoRepository.save(producto);
     }
     
-    /**
-     * Elimina un producto.
-     */
+
     @Transactional
     public void eliminarProducto(Long id) {
         log.info("Eliminando producto ID: {}", id);
@@ -103,19 +84,14 @@ public class ProductoService {
         
         log.info("Producto eliminado: {}", producto.getNombre());
     }
-    
-    /**
-     * Lista todos los productos.
-     */
+
     @Transactional(readOnly = true)
     public List<Producto> listarTodosLosProductos() {
         log.debug("Listando todos los productos");
         return productoRepository.findAll();
     }
     
-    /**
-     * Obtiene un producto por ID.
-     */
+
     @Transactional(readOnly = true)
     public Producto obtenerProductoPorId(Long id) {
         log.debug("Buscando producto ID: {}", id);
@@ -123,13 +99,7 @@ public class ProductoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado con ID: " + id));
     }
     
-    /**
-     * Obtiene productos con stock por debajo del umbral.
-     * Usado para generar alertas de stock bajo.
-     * 
-     * @param umbral Cantidad mínima de stock (por defecto 10)
-     * @return Lista de productos con stock bajo
-     */
+
     @Transactional(readOnly = true)
     public List<Producto> obtenerProductosConStockBajo(Integer umbral) {
         log.info("Buscando productos con stock menor a: {}", umbral);
@@ -138,13 +108,6 @@ public class ProductoService {
         return productos;
     }
     
-    /**
-     * Obtiene productos próximos a vencer.
-     * Usado para generar alertas de vencimiento.
-     * 
-     * @param dias Días de anticipación (por defecto 30)
-     * @return Lista de productos próximos a vencer
-     */
     @Transactional(readOnly = true)
     public List<Producto> obtenerProductosProximosAVencer(Integer dias) {
         log.info("Buscando productos que vencen en los próximos {} días", dias);

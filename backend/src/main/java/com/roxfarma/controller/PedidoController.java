@@ -14,11 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Controlador REST para gestión de Pedidos.
- * 
- * Accesible para ADMINISTRADOR y TRABAJADOR.
- * 
- * @author Sistema RoxFarma
+ *Controlador REST para gestión de Pedidos, para los roles
+ *@author grupo2
  */
 @RestController
 @RequestMapping("/api/pedidos")

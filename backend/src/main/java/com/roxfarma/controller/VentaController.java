@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Controlador REST para gestión de Ventas.
- * 
- * Accesible para ADMINISTRADOR y TRABAJADOR.
- * 
+ * Controlador REST para gestión de Ventas, para los users
  * @author Sistema RoxFarma
  */
 @RestController

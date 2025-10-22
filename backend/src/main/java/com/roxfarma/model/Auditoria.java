@@ -9,20 +9,17 @@ import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * Entidad que representa un registro de Auditoría en el sistema RoxFarma.
- * 
- * Propósito:
+ * Entidad que representa un registro de Auditoría en el sistema
  * - Registrar todas las operaciones importantes del sistema
  * - Mantener trazabilidad de quién hizo qué y cuándo
  * - Cumplir con requerimientos de seguridad y auditoría
- * 
  * Se registran operaciones como:
  * - Creación, actualización y eliminación de registros
  * - Cambios de estado en pedidos
  * - Movimientos de inventario
  * - Accesos al sistema
  * 
- * @author Sistema RoxFarma
+ * @author grupo2
  */
 @Entity
 @Table(name = "auditoria")
@@ -32,15 +29,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Auditoria {
     
-    /**
-     * Identificador único del registro de auditoría.
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     /**
-     * Tipo de operación realizada.
+     * Tipo de operación realizada
      * Ejemplos: "CREATE", "UPDATE", "DELETE", "LOGIN", "VENTA", "PEDIDO"
      */
     @Column(nullable = false, length = 50)
@@ -53,27 +47,22 @@ public class Auditoria {
     @Column(nullable = false, length = 50)
     private String entidad;
     
-    /**
-     * ID del registro afectado (si aplica).
-     * Ejemplo: Si se modificó el producto con ID 5, este campo sería 5
-     */
+    // ID del registro afectado
     @Column(name = "id_entidad")
     private Long idEntidad;
     
-    /**
-     * Nombre del usuario que realizó la operación.
-     */
+    // Nombre del usuario que realizó la operación
+
     @Column(nullable = false, length = 50)
     private String usuario;
     
-    /**
-     * Fecha y hora de la operación.
-     */
+    // Fecha y hora de la operación
+
     @Column(nullable = false)
     private LocalDateTime fecha;
     
     /**
-     * Detalles adicionales de la operación.
+     * Detalles adicionales de la operación
      * Puede contener información como valores anteriores, nuevos valores, etc.
      */
     @Column(columnDefinition = "TEXT")

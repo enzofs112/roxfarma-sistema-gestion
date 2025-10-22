@@ -13,12 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Controlador REST para el Dashboard.
- * 
- * Proporciona datos para el dashboard de inventario y alertas.
- * 
- * @author Sistema RoxFarma
- */
+ *Controlador REST para el Dashboard, inventario y alertas
+ *@author grupo2
+ **/
 @RestController
 @RequestMapping("/api/dashboard")
 @RequiredArgsConstructor
@@ -35,12 +32,12 @@ public class DashboardController {
         
         Map<String, Object> alertas = new HashMap<>();
         
-        // Productos con stock bajo
+        // stock bajo
         List<Producto> stockBajo = productoService.obtenerProductosConStockBajo(10);
         alertas.put("stockBajo", stockBajo);
         alertas.put("cantidadStockBajo", stockBajo.size());
         
-        // Productos próximos a vencer
+        // vencimiento
         List<Producto> proximosVencer = productoService.obtenerProductosProximosAVencer(30);
         alertas.put("proximosVencer", proximosVencer);
         alertas.put("cantidadProximosVencer", proximosVencer.size());
@@ -59,13 +56,11 @@ public class DashboardController {
         List<Producto> productos = productoService.listarTodosLosProductos();
         estadisticas.put("totalProductos", productos.size());
         
-        // Stock total
         int stockTotal = productos.stream()
                 .mapToInt(Producto::getStock)
                 .sum();
         estadisticas.put("stockTotal", stockTotal);
         
-        // Alertas
         estadisticas.put("alertasStockBajo", productoService.obtenerProductosConStockBajo(10).size());
         estadisticas.put("alertasVencimiento", productoService.obtenerProductosProximosAVencer(30).size());
         

@@ -12,9 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Servicio de lógica de negocio para gestión de Clientes.
- * 
- * @author Sistema RoxFarma
+ * Servicio de lógica de negocio para gestión de Clientes
+ * @author grupo2
  */
 @Service
 @RequiredArgsConstructor

@@ -15,21 +15,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 /**
- * Servicio de autenticación para login de usuarios.
- * 
- * Responsabilidades:
- * - Validar credenciales de usuario
- * - Generar token JWT para usuarios autenticados
- * - Retornar información del usuario autenticado
- * 
- * Proceso de autenticación:
- * 1. Recibir usuario y contraseña
- * 2. Validar credenciales con AuthenticationManager
- * 3. Si son válidas, buscar usuario en BD
- * 4. Generar token JWT
- * 5. Retornar token y datos del usuario
- * 
- * @author Sistema RoxFarma
+ * Servicio encargado del proceso de autenticación
+ * Funciones principales:
+ * - Validar credenciales del usuario
+ * - Generar token JWT para sesiones seguras
+ * - Retornar datos del usuario autenticado
+ * Flujo:
+ * usuario + contraseña → validación → generación de token → respuesta
+ * @author grupo2
  */
 @Service
 @RequiredArgsConstructor
@@ -52,7 +45,7 @@ public class AuthenticationService {
         log.info("Intento de login para usuario: {}", request.getUsuario());
         
         try {
-            // 1. Autenticar con Spring Security
+            // Autenticar con Spring Security
             // Esto valida usuario y contraseña usando UserDetailsService y PasswordEncoder
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -63,19 +56,19 @@ public class AuthenticationService {
             
             log.debug("Autenticación exitosa para usuario: {}", request.getUsuario());
             
-            // 2. Si llega aquí, las credenciales son válidas
+            // Si llega aquí, las credenciales son válidas
             // Buscar usuario en la base de datos
             Usuario usuario = usuarioRepository.findByUsuario(request.getUsuario())
                     .orElseThrow(() -> new ResourceNotFoundException(
                             "Usuario no encontrado: " + request.getUsuario()));
             
-            // 3. Generar token JWT
+            // Genera token JWT
             String token = jwtService.generarToken(usuario);
             
             log.info("Login exitoso para usuario: {} con rol: {}", 
                     usuario.getUsuario(), usuario.getRol());
             
-            // 4. Retornar respuesta con token y datos del usuario
+            // Retorna respuesta con token y datos del usuario
             return new AuthResponse(
                     token,
                     usuario.getIdUsuario(),

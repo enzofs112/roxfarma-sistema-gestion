@@ -5,8 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repositorio (DAO) para la entidad Categoria.
- * 
  * Patrón DAO (Data Access Object):
  * - Encapsula toda la lógica de acceso a datos
  * - Proporciona una interfaz abstracta para la persistencia
@@ -20,11 +18,10 @@ import org.springframework.stereotype.Repository;
  * - count(): Contar registros
  * - existsById(Long): Verificar existencia
  * 
- * @author Sistema RoxFarma
+ * @author grupo2
  */
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
-    
     // Spring Data JPA proporciona automáticamente todos los métodos CRUD
-    // No es necesario escribir implementación
+    // no se digitará implementación
 }

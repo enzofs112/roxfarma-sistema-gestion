@@ -20,22 +20,13 @@ import java.io.IOException;
 /**
  * Filtro de autenticación JWT para Spring Security.
  * 
- * Este filtro intercepta TODAS las peticiones HTTP y:
- * 1. Extrae el token JWT del header Authorization
- * 2. Valida el token
- * 3. Si es válido, establece la autenticación en el SecurityContext
- * 4. Permite que la petición continúe
+ * Se ejecuta en cada petición HTTP para:
+ * - Extraer y validar el token JWT enviado en el header Authorization
+ * - Autenticar al usuario si el token es válido
+ * - Registrar la autenticación en el SecurityContext
  * 
- * Flujo de autenticación:
- * Cliente → JwtAuthFilter → SecurityContext → Controller
- * 
- * Extiende OncePerRequestFilter para garantizar que se ejecuta una sola vez por petición.
- * 
- * Aplicación de SOLID:
- * - SRP: Solo se encarga de validar el token JWT
- * - DIP: Depende de abstracciones (JwtService, UserDetailsService)
- * 
- * @author Sistema RoxFarma
+ * Responsabilidad: Validar el acceso antes de llegar al controlador.
+ * Flujo: Cliente → JwtAuthFilter → SecurityContext → Controller
  */
 @Component
 @RequiredArgsConstructor
@@ -46,8 +37,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     
     /**
-     * Método principal del filtro que se ejecuta en cada petición.
-     * 
+     * Método principal del filtro que se ejecuta en cada petición
      * Proceso:
      * 1. Extraer token del header Authorization
      * 2. Si no hay token, continuar sin autenticar
@@ -62,10 +52,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         
-        // 1. Extraer el header Authorization
         final String authHeader = request.getHeader("Authorization");
         
-        // 2. Verificar que el header existe y empieza con "Bearer "
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             log.debug("No se encontró token JWT en la petición a: {}", request.getRequestURI());
             filterChain.doFilter(request, response);
@@ -73,32 +61,24 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         
         try {
-            // 3. Extraer el token (remover "Bearer " del inicio)
             final String jwt = authHeader.substring(7);
             
-            // 4. Extraer el nombre de usuario del token
             final String usuario = jwtService.extraerUsuario(jwt);
             
-            // 5. Si hay usuario y no hay autenticación previa en el contexto
             if (usuario != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 
-                // 6. Cargar los detalles del usuario desde la base de datos
                 UserDetails userDetails = userDetailsService.loadUserByUsername(usuario);
                 
-                // 7. Validar el token
                 if (jwtService.validarToken(jwt, userDetails)) {
                     
-                    // 8. Crear objeto de autenticación
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
                             userDetails.getAuthorities()
                     );
                     
-                    // 9. Agregar detalles de la petición
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     
-                    // 10. Establecer la autenticación en el SecurityContext
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                     
                     log.debug("Usuario '{}' autenticado exitosamente para: {}", 
@@ -111,7 +91,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             log.error("Error al procesar token JWT: {}", e.getMessage());
         }
         
-        // 11. Continuar con la cadena de filtros
         filterChain.doFilter(request, response);
     }
 }

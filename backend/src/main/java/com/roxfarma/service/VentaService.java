@@ -22,25 +22,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Servicio de lógica de negocio para gestión de Ventas.
- * 
- * Responsabilidades:
- * - Registro de ventas
- * - Cálculo de totales (subtotal, IGV, total)
- * - Actualización automática de stock
- * - Validación de stock disponible
- * - Consultas de ventas
- * 
- * Lógica de negocio:
- * 1. Validar que el cliente existe
- * 2. Validar que todos los productos existen
- * 3. Validar que hay stock suficiente para cada producto
- * 4. Calcular subtotal, IGV (18%) y total
- * 5. Crear venta con detalles
- * 6. Disminuir stock de cada producto (mediante InventarioService)
- * 7. Guardar venta
- * 
- * @author Sistema RoxFarma
+ * Servicio para la gestión de ventas.
+ * Funciones:
+ * - Registrar ventas con detalle
+ * - Calcular subtotal, IGV (18%) y total
+ * - Actualizar stock automáticamente
+ * Flujo:
+ * 1. Validar cliente y productos
+ * 2. Verificar stock disponible
+ * 3. Registrar venta y detalles
+ * 4. Descontar stock usando InventarioService
+ * @author grupo2
  */
 @Service
 @RequiredArgsConstructor
@@ -56,37 +48,26 @@ public class VentaService {
     private static final BigDecimal IGV_RATE = new BigDecimal("0.18"); // 18%
     
     /**
-     * Registra una nueva venta.
-     * 
+     * Registro venta
      * Este método es transaccional: si algo falla, se revierte todo.
-     * 
-     * @param dto Datos de la venta
-     * @return Venta registrada
-     * @throws ResourceNotFoundException si cliente o producto no existe
-     * @throws StockInsuficienteException si no hay stock suficiente
      */
     @Transactional
     public Venta registrarVenta(VentaDTO dto) {
         log.info("Iniciando registro de venta para cliente ID: {}", dto.getIdCliente());
         
-        // 1. Validar que el cliente existe
         Cliente cliente = clienteRepository.findById(dto.getIdCliente())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Cliente no encontrado con ID: " + dto.getIdCliente()));
         
-        // 2. Obtener usuario actual
         Usuario usuario = obtenerUsuarioActual();
         
-        // 3. Validar productos y stock
         validarProductosYStock(dto.getDetalles());
         
-        // 4. Crear venta
         Venta venta = new Venta();
         venta.setCliente(cliente);
         venta.setUsuario(usuario);
         venta.setFecha(LocalDateTime.now());
         
-        // 5. Crear detalles y calcular total
         List<DetalleVenta> detalles = new ArrayList<>();
         BigDecimal subtotal = BigDecimal.ZERO;
         
@@ -101,7 +82,6 @@ public class VentaService {
             
             detalles.add(detalle);
             
-            // Calcular subtotal
             BigDecimal precioDetalle = producto.getPrecio()
                     .multiply(BigDecimal.valueOf(detalleDTO.getCantidad()));
             subtotal = subtotal.add(precioDetalle);
@@ -109,17 +89,14 @@ public class VentaService {
         
         venta.setDetalles(detalles);
         
-        // 6. Calcular IGV y total
         BigDecimal igv = subtotal.multiply(IGV_RATE);
         BigDecimal total = subtotal.add(igv);
         venta.setTotal(total);
         
-        // 7. Guardar venta
         Venta ventaGuardada = ventaRepository.save(venta);
         
         log.info("Venta guardada con ID: {}", ventaGuardada.getIdVenta());
         
-        // 8. Actualizar stock de cada producto
         for (DetalleVenta detalle : detalles) {
             inventarioService.disminuirStock(
                     detalle.getProducto().getIdProducto(),
@@ -133,14 +110,7 @@ public class VentaService {
         
         return ventaGuardada;
     }
-    
-    /**
-     * Valida que todos los productos existan y tengan stock suficiente.
-     * 
-     * @param detalles Lista de detalles de venta
-     * @throws ResourceNotFoundException si un producto no existe
-     * @throws StockInsuficienteException si no hay stock suficiente
-     */
+
     private void validarProductosYStock(List<DetalleVentaDTO> detalles) {
         for (DetalleVentaDTO detalleDTO : detalles) {
             Producto producto = productoRepository.findById(detalleDTO.getIdProducto())
@@ -157,10 +127,7 @@ public class VentaService {
     }
     
     /**
-     * Obtiene el usuario actual desde el SecurityContext.
-     * 
-     * @return Usuario autenticado
-     * @throws ResourceNotFoundException si no se encuentra el usuario
+     * Se obtiene el usuario actual desde el SecurityContext
      */
     private Usuario obtenerUsuarioActual() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -171,38 +138,19 @@ public class VentaService {
                         "Usuario no encontrado: " + username));
     }
     
-    /**
-     * Lista todas las ventas.
-     * 
-     * @return Lista de ventas
-     */
     @Transactional(readOnly = true)
     public List<Venta> listarVentas() {
         log.debug("Listando todas las ventas");
         return ventaRepository.findAll();
     }
-    
-    /**
-     * Obtiene una venta por ID.
-     * 
-     * @param id ID de la venta
-     * @return Venta encontrada
-     * @throws ResourceNotFoundException si no existe
-     */
+
     @Transactional(readOnly = true)
     public Venta obtenerVentaPorId(Long id) {
         log.debug("Buscando venta ID: {}", id);
         return ventaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Venta no encontrada con ID: " + id));
     }
-    
-    /**
-     * Lista ventas en un rango de fechas.
-     * 
-     * @param inicio Fecha de inicio
-     * @param fin Fecha de fin
-     * @return Lista de ventas en el rango
-     */
+
     @Transactional(readOnly = true)
     public List<Venta> listarVentasPorFecha(LocalDateTime inicio, LocalDateTime fin) {
         log.debug("Listando ventas entre {} y {}", inicio, fin);

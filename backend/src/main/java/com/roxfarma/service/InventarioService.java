@@ -14,23 +14,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Servicio de lógica de negocio para gestión de Inventario.
- * 
- * Responsabilidades:
- * - Control centralizado del stock
- * - Registro de movimientos de inventario
- * - Auditoría de cambios
+ * Servicio encargado de la gestión de inventario.
+ * Funciones:
+ * - Control de stock de productos
+ * - Registro de movimientos (entrada/salida)
  * - Validación de stock disponible
- * 
- * Este servicio es usado por:
- * - VentaService: Para disminuir stock al vender
- * - PedidoService: Para aumentar stock al recibir pedidos
- * 
- * Aplicación de SOLID:
- * - SRP: Solo gestiona operaciones de inventario
- * - OCP: Extensible para agregar nuevos tipos de movimientos
- * 
- * @author Sistema RoxFarma
+ * - Auditoría de cambios
+ * Uso:
+ * - VentaService reduce stock
+ * - PedidoService aumenta stock
+ * @author grupo2
  */
 @Service
 @RequiredArgsConstructor
@@ -41,36 +34,25 @@ public class InventarioService {
     private final AuditoriaRepository auditoriaRepository;
     
     /**
-     * Disminuye el stock de un producto.
-     * 
-     * Usado cuando:
-     * - Se registra una venta
-     * - Se ajusta inventario manualmente
-     * 
-     * Proceso:
-     * 1. Buscar producto
-     * 2. Validar que hay stock suficiente
-     * 3. Disminuir stock
-     * 4. Guardar cambios
-     * 5. Registrar en auditoría
-     * 
-     * @param idProducto ID del producto
-     * @param cantidad Cantidad a disminuir
-     * @param motivo Motivo del movimiento (VENTA, AJUSTE, etc.)
-     * @throws ResourceNotFoundException si el producto no existe
-     * @throws StockInsuficienteException si no hay stock suficiente
+ * Reduce el stock de un producto.
+ * Usado en:
+ * - Registro de ventas
+ * - Ajustes de inventario
+ * Pasos:
+ * 1. Buscar producto
+ * 2. Validar stock disponible
+ * 3. Actualizar stock
+ * 4. Registrar movimiento
      */
     @Transactional
     public void disminuirStock(Long idProducto, Integer cantidad, String motivo) {
         log.info("Disminuyendo stock del producto ID: {} en {} unidades. Motivo: {}", 
                 idProducto, cantidad, motivo);
         
-        // 1. Buscar producto
         Producto producto = productoRepository.findById(idProducto)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Producto no encontrado con ID: " + idProducto));
         
-        // 2. Validar stock suficiente
         if (producto.getStock() < cantidad) {
             String mensaje = String.format(
                     "Stock insuficiente para %s. Disponible: %d, Solicitado: %d",
@@ -79,70 +61,49 @@ public class InventarioService {
             throw new StockInsuficienteException(mensaje);
         }
         
-        // 3. Disminuir stock
         int stockAnterior = producto.getStock();
         producto.setStock(producto.getStock() - cantidad);
         
-        // 4. Guardar cambios
         productoRepository.save(producto);
         
         log.info("Stock actualizado para producto '{}'. Anterior: {}, Nuevo: {}", 
                 producto.getNombre(), stockAnterior, producto.getStock());
         
-        // 5. Registrar en auditoría
         registrarMovimiento(producto, cantidad, motivo, "SALIDA", stockAnterior);
     }
     
     /**
-     * Aumenta el stock de un producto.
-     * 
-     * Usado cuando:
-     * - Se recibe un pedido de proveedor
-     * - Se ajusta inventario manualmente
-     * 
-     * Proceso:
-     * 1. Buscar producto
-     * 2. Aumentar stock
-     * 3. Guardar cambios
-     * 4. Registrar en auditoría
-     * 
-     * @param idProducto ID del producto
-     * @param cantidad Cantidad a aumentar
-     * @param motivo Motivo del movimiento (PEDIDO, AJUSTE, etc.)
-     * @throws ResourceNotFoundException si el producto no existe
+ * Aumenta el stock de un producto.
+ * Usado en:
+ * - Recepción de pedidos de proveedor
+ * - Ajustes de inventario
+ * Pasos:
+ * 1. Buscar producto
+ * 2. Incrementar stock
+ * 3. Guardar cambios y registrar movimiento
      */
     @Transactional
     public void aumentarStock(Long idProducto, Integer cantidad, String motivo) {
         log.info("Aumentando stock del producto ID: {} en {} unidades. Motivo: {}", 
                 idProducto, cantidad, motivo);
         
-        // 1. Buscar producto
         Producto producto = productoRepository.findById(idProducto)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Producto no encontrado con ID: " + idProducto));
         
-        // 2. Aumentar stock
         int stockAnterior = producto.getStock();
         producto.setStock(producto.getStock() + cantidad);
         
-        // 3. Guardar cambios
         productoRepository.save(producto);
         
         log.info("Stock actualizado para producto '{}'. Anterior: {}, Nuevo: {}", 
                 producto.getNombre(), stockAnterior, producto.getStock());
         
-        // 4. Registrar en auditoría
         registrarMovimiento(producto, cantidad, motivo, "ENTRADA", stockAnterior);
     }
     
     /**
-     * Registra un movimiento de inventario en la auditoría.
-     * 
-     * @param producto Producto afectado
-     * @param cantidad Cantidad del movimiento
-     * @param motivo Motivo del movimiento
-     * @param tipo Tipo de movimiento (ENTRADA o SALIDA)
-     * @param stockAnterior Stock antes del movimiento
+     * Registro de un movimiento de inventario en la auditoría
      */
     private void registrarMovimiento(Producto producto, Integer cantidad, 
                                      String motivo, String tipo, int stockAnterior) {
@@ -163,15 +124,10 @@ public class InventarioService {
             log.debug("Movimiento de inventario registrado en auditoría");
         } catch (Exception e) {
             log.error("Error al registrar movimiento en auditoría: {}", e.getMessage());
-            // No lanzar excepción para no afectar la operación principal
         }
     }
     
-    /**
-     * Obtiene el nombre del usuario actual desde el SecurityContext.
-     * 
-     * @return Nombre del usuario autenticado o "SYSTEM" si no hay usuario
-     */
+    // Obtiene el nombre del usuario actual desde el SecurityContext.
     private String obtenerUsuarioActual() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

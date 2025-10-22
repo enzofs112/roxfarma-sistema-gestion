@@ -12,11 +12,8 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
- * Controlador REST para Reportes.
- * 
- * Solo accesible para ADMINISTRADOR.
- * 
- * @author Sistema RoxFarma
+ * Controlador REST para Reportes, solo accesible para admin.
+ * @author grupo2
  */
 @RestController
 @RequestMapping("/api/reportes")

@@ -13,11 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Controlador REST para gestión de Usuarios.
- * 
- * Solo accesible para usuarios con rol ADMINISTRADOR.
- * 
- * @author Sistema RoxFarma
+ * Controlador REST para gestión de Usuarios, solo para admin
+ * @author grupo2
  */
 @RestController
 @RequestMapping("/api/usuarios")

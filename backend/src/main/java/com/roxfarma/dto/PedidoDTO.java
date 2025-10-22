@@ -10,30 +10,19 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * DTO para transferencia de datos de Pedido.
- * 
- * Contiene el proveedor y la lista de productos a pedir.
- * El estado inicial es PENDIENTE (se establece automáticamente).
- * 
- * @author Sistema RoxFarma
+ * DTO para transferencia de datos de Pedido
+ * Contiene el proveedor y la lista de productos a pedir
+ * El estado inicial es PENDIENTE (se establece automáticamente)
+ * @author grupo2
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PedidoDTO {
     
-    /**
-     * ID del proveedor al que se hace el pedido.
-     */
     @NotNull(message = "El proveedor es obligatorio")
     private Long idProveedor;
-    
-    /**
-     * Lista de productos con sus cantidades.
-     * Validaciones:
-     * - No puede estar vacía
-     * - Cada detalle debe ser válido (@Valid)
-     */
+
     @NotEmpty(message = "Debe incluir al menos un producto en el pedido")
     @Valid
     private List<DetallePedidoDTO> detalles;

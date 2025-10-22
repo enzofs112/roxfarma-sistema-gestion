@@ -14,12 +14,10 @@ import java.util.List;
 
 /**
  * Controlador REST para gestión de Productos.
- * 
  * Acceso:
  * - GET: ADMINISTRADOR y TRABAJADOR
  * - POST, PUT, DELETE: Solo ADMINISTRADOR
- * 
- * @author Sistema RoxFarma
+ * @author grupo2
  */
 @RestController
 @RequestMapping("/api/productos")

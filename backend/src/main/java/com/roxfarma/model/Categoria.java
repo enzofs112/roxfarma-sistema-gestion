@@ -9,13 +9,8 @@ import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * Entidad que representa una Categoría de productos en el sistema RoxFarma.
- * Las categorías permiten organizar los productos (ej: Analgésicos, Antibióticos).
- * 
- * Aplicación de SOLID:
- * - SRP: Esta clase solo representa una categoría, sin lógica de negocio
- * 
- * @author Sistema RoxFarma
+ * Entidad que representa una categoría de productos en el sistema
+ * @author grupo2
  */
 @Entity
 @Table(name = "categoria")
@@ -24,34 +19,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Categoria {
-    
-    /**
-     * Identificador único de la categoría.
-     * Se genera automáticamente con estrategia IDENTITY (auto-increment).
-     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_categoria")
     private Long idCategoria;
-    
-    /**
-     * Nombre de la categoría (ej: "Analgésicos", "Antibióticos").
-     * Campo obligatorio.
-     */
+
     @Column(nullable = false, length = 100)
     private String nombre;
-    
-    /**
-     * Descripción detallada de la categoría.
-     * Campo opcional.
-     */
+
     @Column(columnDefinition = "TEXT")
     private String descripcion;
-    
-    /**
-     * Fecha de creación del registro.
-     * Se establece automáticamente al crear la categoría.
-     */
+
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
     

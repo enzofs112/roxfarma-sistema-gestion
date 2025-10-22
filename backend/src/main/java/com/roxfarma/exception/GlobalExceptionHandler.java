@@ -16,31 +16,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Manejador global de excepciones para la aplicación RoxFarma.
- * 
+ * Manejador global de excepciones para la aplicación
  * Responsabilidades:
  * - Capturar excepciones lanzadas en cualquier controlador
  * - Convertir excepciones en respuestas HTTP apropiadas
  * - Proporcionar mensajes de error consistentes
  * - Registrar errores en logs
- * 
  * Ventajas:
  * - Centraliza el manejo de errores
  * - Evita código repetitivo en controladores
  * - Proporciona respuestas consistentes al frontend
  * - Oculta detalles internos de errores al cliente
- * 
- * @author Sistema RoxFarma
+ * @author grupo2
  */
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
     
     /**
-     * Maneja ResourceNotFoundException (404 Not Found).
-     * 
-     * Se lanza cuando no se encuentra un recurso solicitado.
-     * Ejemplos: Usuario no encontrado, Producto no encontrado, etc.
+     * Maneja ResourceNotFoundException (404 Not Found)
+     * Se lanza cuando no se encuentra un recurso solicitado
+     * Ejemplos: Usuario no encontrado, Producto no encontrado, etc
      */
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex) {
@@ -56,9 +52,8 @@ public class GlobalExceptionHandler {
     }
     
     /**
-     * Maneja StockInsuficienteException (400 Bad Request).
-     * 
-     * Se lanza cuando se intenta vender más productos de los disponibles.
+     * Maneja StockInsuficienteException (400 Bad Request)
+     * Se lanza cuando se intenta vender más productos de los disponibles
      */
     @ExceptionHandler(StockInsuficienteException.class)
     public ResponseEntity<ErrorResponse> handleStockInsuficiente(StockInsuficienteException ex) {
@@ -74,8 +69,7 @@ public class GlobalExceptionHandler {
     }
     
     /**
-     * Maneja EstadoPedidoInvalidoException (400 Bad Request).
-     * 
+     * Maneja EstadoPedidoInvalidoException (400 Bad Request)
      * Se lanza cuando se intenta una transición de estado inválida en un pedido.
      */
     @ExceptionHandler(EstadoPedidoInvalidoException.class)
@@ -92,10 +86,9 @@ public class GlobalExceptionHandler {
     }
     
     /**
-     * Maneja MethodArgumentNotValidException (400 Bad Request).
-     * 
-     * Se lanza cuando falla la validación de un DTO con @Valid.
-     * Retorna un mapa con los errores de cada campo.
+     * Maneja MethodArgumentNotValidException (400 Bad Request)
+     * Se lanza cuando falla la validación de un DTO con @Valid
+     * Retorna un mapa con los errores de cada campo
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex) {
@@ -119,9 +112,8 @@ public class GlobalExceptionHandler {
     }
     
     /**
-     * Maneja BadCredentialsException (401 Unauthorized).
-     * 
-     * Se lanza cuando las credenciales de login son incorrectas.
+     * Maneja BadCredentialsException (401 Unauthorized)
+     * Se lanza cuando las credenciales de login son incorrectas
      */
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException ex) {
@@ -137,9 +129,8 @@ public class GlobalExceptionHandler {
     }
     
     /**
-     * Maneja AccessDeniedException (403 Forbidden).
-     * 
-     * Se lanza cuando un usuario intenta acceder a un recurso sin permisos.
+     * Maneja AccessDeniedException (403 Forbidden)
+     * Se lanza cuando un usuario intenta acceder a un recurso sin permisos
      */
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex) {
@@ -155,9 +146,8 @@ public class GlobalExceptionHandler {
     }
     
     /**
-     * Maneja IllegalArgumentException (400 Bad Request).
-     * 
-     * Se lanza cuando se proporcionan argumentos inválidos.
+     * Maneja IllegalArgumentException (400 Bad Request)
+     * Se lanza cuando se proporcionan argumentos inválidos
      */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
@@ -173,10 +163,9 @@ public class GlobalExceptionHandler {
     }
     
     /**
-     * Maneja cualquier otra excepción no capturada (500 Internal Server Error).
-     * 
-     * Este es el manejador de último recurso.
-     * Registra el error completo en logs pero solo retorna un mensaje genérico al cliente.
+     * Maneja cualquier otra excepción no capturada (500 Internal Server Error)
+     * Este es el manejador de último recurso
+     * Registra el error completo en logs pero solo retorna un mensaje genérico al cliente
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
