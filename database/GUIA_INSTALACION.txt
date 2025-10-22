@@ -1,0 +1,295 @@
+================================================================================
+    GUÍA PASO A PASO - INSTALACIÓN DE BASE DE DATOS ROXFARMA
+    Para MySQL de XAMPP
+================================================================================
+
+Esta guía te llevará paso a paso para crear la base de datos del Sistema RoxFarma
+en tu instalación de XAMPP.
+
+================================================================================
+MÉTODO 1: USANDO PHPMYADMIN (MÁS FÁCIL - RECOMENDADO)
+================================================================================
+
+PASO 1: INICIAR MYSQL EN XAMPP
+-------------------------------
+1. Abre el Panel de Control de XAMPP
+2. Busca la fila "MySQL"
+3. Haz clic en el botón "Start"
+4. Espera a que el fondo se ponga verde
+5. Deberías ver "Port(s): 3306" en la misma fila
+
+   ✓ Si MySQL ya está corriendo, verás el botón "Stop" en lugar de "Start"
+   ✗ Si no inicia, verifica que el puerto 3306 no esté ocupado por otro programa
+
+PASO 2: ABRIR PHPMYADMIN
+-------------------------
+1. En el Panel de Control de XAMPP, haz clic en el botón "Admin" junto a MySQL
+   O abre tu navegador y ve a: http://localhost/phpmyadmin
+
+2. Deberías ver la interfaz de phpMyAdmin con:
+   - Panel izquierdo: Lista de bases de datos
+   - Panel central: Información del servidor
+
+PASO 3: CREAR LA BASE DE DATOS
+-------------------------------
+1. En el panel izquierdo, haz clic en "Nueva" (o "New")
+
+2. En el campo "Nombre de la base de datos", escribe:
+   roxfarma_db
+
+3. En el menú desplegable "Cotejamiento", selecciona:
+   utf8mb4_unicode_ci
+
+4. Haz clic en el botón "Crear"
+
+   ✓ Deberías ver "roxfarma_db" en el panel izquierdo
+   ✓ El panel central mostrará "No se han encontrado tablas en la base de datos"
+
+PASO 4: ABRIR EL SCRIPT SQL
+----------------------------
+1. En tu explorador de archivos, navega a la carpeta del proyecto:
+   ruta/al/proyecto/database/
+
+2. Haz clic derecho en el archivo "schema.sql"
+
+3. Selecciona "Abrir con" → "Bloc de notas" (o tu editor de texto preferido)
+
+4. Presiona Ctrl+A para seleccionar todo el contenido
+
+5. Presiona Ctrl+C para copiar
+
+PASO 5: EJECUTAR EL SCRIPT EN PHPMYADMIN
+-----------------------------------------
+1. En phpMyAdmin, asegúrate de que "roxfarma_db" esté seleccionada
+   (debería aparecer en negrita en el panel izquierdo)
+
+2. Haz clic en la pestaña "SQL" en la parte superior
+
+3. Verás un área de texto grande
+
+4. Haz clic dentro del área de texto
+
+5. Presiona Ctrl+V para pegar el contenido del script
+
+6. Haz clic en el botón "Continuar" (o "Go") en la esquina inferior derecha
+
+7. Espera unos segundos mientras se ejecuta el script
+
+   ✓ Si todo sale bien, verás un mensaje verde: "X consultas ejecutadas correctamente"
+   ✗ Si hay un error, verás un mensaje rojo con detalles del error
+
+PASO 6: VERIFICAR LA INSTALACIÓN
+---------------------------------
+1. En el panel izquierdo, haz clic en "roxfarma_db" para expandirla
+
+2. Deberías ver 10 tablas:
+   ✓ auditoria
+   ✓ categoria
+   ✓ cliente
+   ✓ detalle_pedido
+   ✓ detalle_venta
+   ✓ pedido
+   ✓ producto
+   ✓ proveedor
+   ✓ usuario
+   ✓ venta
+
+3. Haz clic en la tabla "producto"
+
+4. Haz clic en la pestaña "Examinar" (o "Browse")
+
+5. Deberías ver 19 productos listados
+
+6. Haz clic en la tabla "usuario"
+
+7. Haz clic en "Examinar"
+
+8. Deberías ver 3 usuarios:
+   - admin (ADMINISTRADOR)
+   - jperez (TRABAJADOR)
+   - mgarcia (TRABAJADOR)
+
+   ✓ Si ves los datos, ¡la instalación fue exitosa!
+
+================================================================================
+MÉTODO 2: USANDO LÍNEA DE COMANDOS (ALTERNATIVO)
+================================================================================
+
+PASO 1: ABRIR CMD
+-----------------
+1. Presiona Windows + R
+2. Escribe: cmd
+3. Presiona Enter
+
+PASO 2: NAVEGAR A LA CARPETA DEL PROYECTO
+------------------------------------------
+1. En CMD, escribe:
+   cd C:\ruta\a\tu\proyecto\database
+
+   (Reemplaza con la ruta real de tu proyecto)
+
+2. Presiona Enter
+
+PASO 3: EJECUTAR EL SCRIPT DE INSTALACIÓN
+------------------------------------------
+1. Escribe:
+   install.bat
+
+2. Presiona Enter
+
+3. El script verificará que MySQL esté corriendo y ejecutará el SQL automáticamente
+
+4. Sigue las instrucciones en pantalla
+
+   ✓ Si todo sale bien, verás "INSTALACION COMPLETADA"
+   ✗ Si hay errores, el script te indicará qué hacer
+
+================================================================================
+MÉTODO 3: USANDO MYSQL COMMAND LINE (AVANZADO)
+================================================================================
+
+PASO 1: ABRIR MYSQL COMMAND LINE
+---------------------------------
+1. Busca en el menú de inicio: "MySQL Command Line Client"
+   O navega a: C:\xampp\mysql\bin\mysql.exe
+
+2. Cuando pida contraseña, simplemente presiona Enter (contraseña vacía)
+
+PASO 2: CREAR LA BASE DE DATOS
+-------------------------------
+1. Escribe:
+   CREATE DATABASE roxfarma_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+2. Presiona Enter
+
+3. Deberías ver: "Query OK, 1 row affected"
+
+PASO 3: EJECUTAR EL SCRIPT
+---------------------------
+1. Escribe:
+   USE roxfarma_db;
+
+2. Presiona Enter
+
+3. Escribe:
+   SOURCE C:/ruta/a/tu/proyecto/database/schema.sql;
+
+   (Usa barras diagonales / en lugar de \)
+
+4. Presiona Enter
+
+5. Verás muchas líneas ejecutándose
+
+6. Al final deberías ver un resumen de datos insertados
+
+================================================================================
+VERIFICACIÓN FINAL
+================================================================================
+
+Para asegurarte de que todo está correcto:
+
+1. Abre phpMyAdmin: http://localhost/phpmyadmin
+
+2. Selecciona "roxfarma_db"
+
+3. Ve a la pestaña "SQL"
+
+4. Ejecuta esta consulta:
+
+   SELECT 'Categorías' AS Tabla, COUNT(*) AS Total FROM categoria
+   UNION ALL
+   SELECT 'Productos', COUNT(*) FROM producto
+   UNION ALL
+   SELECT 'Clientes', COUNT(*) FROM cliente
+   UNION ALL
+   SELECT 'Proveedores', COUNT(*) FROM proveedor
+   UNION ALL
+   SELECT 'Usuarios', COUNT(*) FROM usuario;
+
+5. Deberías ver:
+   Categorías: 8
+   Productos: 19
+   Clientes: 8
+   Proveedores: 6
+   Usuarios: 3
+
+   ✓ Si los números coinciden, ¡todo está perfecto!
+
+================================================================================
+CREDENCIALES DE ACCESO
+================================================================================
+
+Una vez que ejecutes la aplicación Spring Boot, podrás iniciar sesión con:
+
+ADMINISTRADOR (Acceso completo):
+   Usuario: admin
+   Contraseña: password123
+
+TRABAJADOR (Acceso limitado):
+   Usuario: jperez
+   Contraseña: password123
+
+TRABAJADOR (Acceso limitado):
+   Usuario: mgarcia
+   Contraseña: password123
+
+================================================================================
+SOLUCIÓN DE PROBLEMAS
+================================================================================
+
+PROBLEMA: "MySQL no está corriendo"
+SOLUCIÓN:
+   1. Abre el Panel de Control de XAMPP
+   2. Haz clic en "Start" junto a MySQL
+   3. Si no inicia, verifica que el puerto 3306 no esté ocupado
+
+PROBLEMA: "Access denied for user 'root'"
+SOLUCIÓN:
+   1. En phpMyAdmin, ve a "Cuentas de usuario"
+   2. Busca el usuario "root" con host "localhost"
+   3. Haz clic en "Editar privilegios"
+   4. Asegúrate de que no tenga contraseña
+
+PROBLEMA: "Table already exists"
+SOLUCIÓN:
+   1. La base de datos ya existe
+   2. Elimínala desde phpMyAdmin:
+      - Selecciona "roxfarma_db"
+      - Haz clic en "Operaciones"
+      - Haz clic en "Eliminar la base de datos"
+   3. Vuelve a ejecutar el script
+
+PROBLEMA: "Unknown database 'roxfarma_db'"
+SOLUCIÓN:
+   1. Crea la base de datos manualmente en phpMyAdmin
+   2. Luego ejecuta solo la parte del script que crea las tablas
+
+PROBLEMA: El script se ejecuta pero no veo datos
+SOLUCIÓN:
+   1. Verifica que ejecutaste TODO el script, no solo una parte
+   2. El script incluye los INSERT al final
+   3. Vuelve a ejecutar el script completo
+
+================================================================================
+PRÓXIMOS PASOS
+================================================================================
+
+Una vez que la base de datos esté instalada:
+
+1. ✓ Configurar application.properties en Spring Boot
+2. ✓ Ejecutar la aplicación backend
+3. ✓ Probar el login con las credenciales proporcionadas
+4. ✓ Comenzar a desarrollar las funcionalidades
+
+================================================================================
+¿NECESITAS AYUDA?
+================================================================================
+
+Si tienes problemas:
+1. Revisa el archivo CONFIGURACION_XAMPP.txt
+2. Consulta el archivo README.md en la carpeta database
+3. Verifica los logs de MySQL en: C:\xampp\mysql\data\mysql_error.log
+
+================================================================================
+FIN DE LA GUÍA
+================================================================================
