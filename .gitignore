@@ -49,3 +49,6 @@ frontend/yarn-error.log*
 *.swp
 *.swo
 *~
+
+# Carpeta de especificaciones Kiro
+.kiro/

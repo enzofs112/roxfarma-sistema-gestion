@@ -1,0 +1,6 @@
+[33m71be1f0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mbackend[m[33m)[m feat(backend): implementar API REST completa
+[33mbf476ca[m feat(backend): crear servicios de negocio principales
+[33mc605af8[m feat(backend): implementar seguridad JWT completa
+[33m33ffa19[m feat(backend): desarrollar modelo de datos JPA
+[33ma4f9866[m feat(backend): implementar arquitectura base Spring Boot
+[33m534c14a[m[33m ([m[1;32mmain[m[33m, [m[1;32mfrontend[m[33m)[m docs: agregar documentacion inicial del proyecto
