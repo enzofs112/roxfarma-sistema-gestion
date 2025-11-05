@@ -81,7 +81,7 @@ public class JwtService {
     }
 
     private Claims extraerTodosClaims(String token) {
-        return Jwts.parserBuilder()
+        return Jwts.parser()
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
@@ -89,7 +89,8 @@ public class JwtService {
     }
 
     private Key getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        // Si la clave no está en Base64, usarla directamente
+        byte[] keyBytes = secretKey.getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

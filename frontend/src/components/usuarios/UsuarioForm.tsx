@@ -5,7 +5,7 @@ import { UsuarioDTO, Rol } from '../../types';
 import './UsuarioForm.css';
 
 const UsuarioForm: React.FC = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -14,7 +14,7 @@ const UsuarioForm: React.FC = () => {
     nombre: '',
     usuario: '',
     contrasena: '',
-    rol: Rol.TRABAJADOR,
+    rol: Rol.TRABAJADOR
   });
 
   useEffect(() => {
@@ -25,16 +25,23 @@ const UsuarioForm: React.FC = () => {
 
   const cargarUsuario = async () => {
     try {
-      const usuario = await usuarioService.obtenerPorId(Number(id));
+      const usuario = await usuarioService.obtenerUsuario(Number(id));
       setFormData({
         nombre: usuario.nombre,
         usuario: usuario.usuario,
         contrasena: '', // No mostramos la contraseña
-        rol: usuario.rol,
+        rol: usuario.rol
       });
     } catch (err) {
-      setError('Error al cargar usuario');
+      setError('Error al cargar el usuario');
     }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,7 +49,7 @@ const UsuarioForm: React.FC = () => {
     setError('');
 
     if (!formData.nombre || !formData.usuario) {
-      setError('Complete todos los campos obligatorios');
+      setError('Por favor complete todos los campos obligatorios');
       return;
     }
 
@@ -54,13 +61,13 @@ const UsuarioForm: React.FC = () => {
     try {
       setLoading(true);
       if (id) {
-        await usuarioService.actualizar(Number(id), formData);
+        await usuarioService.actualizarUsuario(Number(id), formData);
       } else {
-        await usuarioService.crear(formData);
+        await usuarioService.crearUsuario(formData);
       }
       navigate('/usuarios');
     } catch (err: any) {
-      setError(err.response?.data?.mensaje || 'Error al guardar usuario');
+      setError(err.response?.data?.mensaje || 'Error al guardar el usuario');
     } finally {
       setLoading(false);
     }
@@ -68,44 +75,57 @@ const UsuarioForm: React.FC = () => {
 
   return (
     <div className="usuario-form-container">
-      <h2>{id ? 'Editar Usuario' : 'Nuevo Usuario'}</h2>
+      <div className="form-header">
+        <h2>{id ? '✏️ Editar Usuario' : '➕ Nuevo Usuario'}</h2>
+      </div>
 
       <form onSubmit={handleSubmit} className="usuario-form">
         <div className="form-group">
-          <label>Nombre Completo *</label>
+          <label htmlFor="nombre">Nombre Completo *</label>
           <input
             type="text"
+            id="nombre"
+            name="nombre"
             value={formData.nombre}
-            onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-            placeholder="Ej: Juan Pérez"
+            onChange={handleChange}
+            required
           />
         </div>
 
         <div className="form-group">
-          <label>Usuario *</label>
+          <label htmlFor="usuario">Usuario *</label>
           <input
             type="text"
+            id="usuario"
+            name="usuario"
             value={formData.usuario}
-            onChange={(e) => setFormData({ ...formData, usuario: e.target.value })}
-            placeholder="Ej: jperez"
+            onChange={handleChange}
+            required
           />
         </div>
 
         <div className="form-group">
-          <label>Contraseña {!id && '*'}</label>
+          <label htmlFor="contrasena">
+            Contraseña {id ? '(dejar vacío para no cambiar)' : '*'}
+          </label>
           <input
             type="password"
+            id="contrasena"
+            name="contrasena"
             value={formData.contrasena}
-            onChange={(e) => setFormData({ ...formData, contrasena: e.target.value })}
-            placeholder={id ? 'Dejar en blanco para no cambiar' : 'Ingrese contraseña'}
+            onChange={handleChange}
+            required={!id}
           />
         </div>
 
         <div className="form-group">
-          <label>Rol *</label>
+          <label htmlFor="rol">Rol *</label>
           <select
+            id="rol"
+            name="rol"
             value={formData.rol}
-            onChange={(e) => setFormData({ ...formData, rol: e.target.value as Rol })}
+            onChange={handleChange}
+            required
           >
             <option value={Rol.TRABAJADOR}>Trabajador</option>
             <option value={Rol.ADMINISTRADOR}>Administrador</option>
@@ -115,10 +135,10 @@ const UsuarioForm: React.FC = () => {
         {error && <div className="error-message">{error}</div>}
 
         <div className="form-actions">
-          <button type="button" onClick={() => navigate('/usuarios')} className="btn-cancel">
+          <button type="button" className="btn-cancel" onClick={() => navigate('/usuarios')}>
             Cancelar
           </button>
-          <button type="submit" disabled={loading} className="btn-submit">
+          <button type="submit" className="btn-submit" disabled={loading}>
             {loading ? 'Guardando...' : 'Guardar'}
           </button>
         </div>

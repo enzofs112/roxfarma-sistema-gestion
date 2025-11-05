@@ -1,201 +1,248 @@
-# 🏥 RoxFarma - Sistema de Gestión Farmacéutica
+# 🏥 Sistema de Gestión Farmacéutica RoxFarma
 
-Sistema integral de gestión para farmacias desarrollado con Spring Boot y React + TypeScript.
+Sistema completo de gestión farmacéutica desarrollado con Spring Boot (Backend) y React + TypeScript (Frontend).
 
-## 📋 Descripción
+## 📋 Características
 
-RoxFarma es un sistema completo de gestión farmacéutica que permite:
-- Control de inventario de medicamentos
-- Gestión de ventas y generación de boletas
-- Administración de pedidos a proveedores
-- Control de usuarios con roles (Administrador/Trabajador)
-- Reportes y auditoría de operaciones
-- Alertas automáticas de stock bajo y productos próximos a vencer
+- ✅ Gestión de productos e inventario
+- ✅ Control de ventas con generación de boletas PDF
+- ✅ Gestión de pedidos a proveedores
+- ✅ Administración de clientes y proveedores
+- ✅ Alertas de stock bajo y productos próximos a vencer
+- ✅ Dashboard con estadísticas en tiempo real
+- ✅ Autenticación y autorización con JWT
+- ✅ Roles de usuario (Administrador y Trabajador)
+- ✅ Auditoría de operaciones
 
-## 🏗️ Arquitectura
+## 🛠️ Tecnologías
 
 ### Backend
-- **Framework**: Spring Boot 3.x
-- **Base de datos**: MySQL 8.0
-- **Seguridad**: JWT (JSON Web Tokens)
-- **Arquitectura**: MVC + DAO (Patrón Repository)
-- **Documentación API**: REST endpoints
+- Java 17
+- Spring Boot 3.2.0
+- Spring Security + JWT
+- Spring Data JPA
+- MySQL 8
+- iText PDF
+- Maven
 
 ### Frontend
-- **Framework**: React 18 con TypeScript
-- **UI Library**: Material-UI (MUI)
-- **Estado**: Context API
-- **HTTP Client**: Axios
-- **Routing**: React Router v6
+- React 18
+- TypeScript
+- React Router
+- Axios
+- CSS3
 
-## 📂 Estructura del Proyecto
+## 📦 Requisitos Previos
 
-```
-roxfarma/
-├── backend/              # API REST Spring Boot
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/com/roxfarma/
-│   │   │   │   ├── config/       # Configuración (Security, CORS)
-│   │   │   │   ├── controller/   # Controladores REST
-│   │   │   │   ├── dto/          # Data Transfer Objects
-│   │   │   │   ├── exception/    # Excepciones personalizadas
-│   │   │   │   ├── model/        # Entidades JPA
-│   │   │   │   ├── repository/   # Repositorios DAO
-│   │   │   │   └── service/      # Lógica de negocio
-│   │   │   └── resources/
-│   │   │       └── application.properties
-│   │   └── test/
-│   └── pom.xml
-├── frontend/             # Aplicación React
-│   ├── public/
-│   ├── src/
-│   │   ├── components/   # Componentes React
-│   │   ├── context/      # Contextos (Auth, etc.)
-│   │   ├── pages/        # Páginas/Vistas
-│   │   ├── services/     # Servicios API
-│   │   └── types/        # Tipos TypeScript
-│   ├── package.json
-│   └── tsconfig.json
-├── database/             # Scripts SQL
-│   ├── schema.sql
-└── README.md
-```
+- Java JDK 17 o superior
+- Node.js 16 o superior
+- MySQL 8 o superior
+- Maven 3.6 o superior
 
 ## 🚀 Instalación y Configuración
 
-### Prerrequisitos
-- Java 17 o superior
-- Maven 3.8+
-- Node.js 16+ y npm
-- MySQL 8.0
-- XAMPP (opcional, para desarrollo local)
-
-### Backend
-
-1. **Configurar base de datos**:
-   ```bash
-   # Ejecutar schema.sql en MySQL
-   mysql -u root -p < database/schema.sql
-   ```
-
-2. **Configurar application.properties**:
-   ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/roxfarma
-   spring.datasource.username=root
-   spring.datasource.password=tu_password
-   ```
-
-3. **Compilar y ejecutar**:
-   ```bash
-   cd backend
-   mvn clean install
-   mvn spring-boot:run
-   ```
-
-   El backend estará disponible en: `http://localhost:8080`
-
-### Frontend
-
-1. **Instalar dependencias**:
-   ```bash
-   cd frontend
-   npm install
-   ```
-
-2. **Configurar variables de entorno** (crear `.env`):
-   ```
-   REACT_APP_API_URL=http://localhost:8080/api
-   ```
-
-3. **Ejecutar en desarrollo**:
-   ```bash
-   npm start
-   ```
-
-   El frontend estará disponible en: `http://localhost:3000`
-
-## 👥 Usuarios por Defecto
-
-| Usuario | Contraseña | Rol |
-|---------|-----------|-----|
-| admin | admin123 | ADMINISTRADOR |
-| trabajador1 | trabajador123 | TRABAJADOR |
-
-## 🔐 Seguridad
-
-- Autenticación mediante JWT
-- Contraseñas cifradas con BCrypt
-- Autorización basada en roles
-- Sesiones stateless
-- CORS configurado para desarrollo
-
-## 📊 Funcionalidades Principales
-
-### Módulo de Inventario
-- ✅ CRUD de productos
-- ✅ Control de stock automático
-- ✅ Alertas de stock bajo (< 10 unidades)
-- ✅ Alertas de vencimiento (30 días)
-- ✅ Gestión de categorías
-
-### Módulo de Ventas
-- ✅ Registro de ventas
-- ✅ Cálculo automático de IGV (18%)
-- ✅ Generación de boletas PDF
-- ✅ Actualización automática de inventario
-- ✅ Gestión de clientes
-
-### Módulo de Pedidos
-- ✅ Gestión de pedidos a proveedores
-- ✅ Estados: PENDIENTE → ENVIADO → RECIBIDO
-- ✅ Actualización automática de stock al recibir
-- ✅ Gestión de proveedores
-
-### Módulo de Administración
-- ✅ Gestión de usuarios
-- ✅ Roles y permisos
-- ✅ Auditoría de operaciones
-- ✅ Reportes de ventas
-- ✅ Dashboard con estadísticas
-
-## 🧪 Testing
+### 1. Configurar Base de Datos
 
 ```bash
-# Backend
+# Iniciar MySQL
+mysql -u root -p
+
+# Ejecutar el script de base de datos
+mysql -u root -p < database/schema.sql
+```
+
+### 2. Configurar Backend
+
+```bash
+# Navegar a la carpeta backend
+cd backend
+
+# Editar application.properties si es necesario
+# Cambiar la contraseña de MySQL en:
+# spring.datasource.password=tu_password
+
+# Compilar el proyecto
+mvn clean install
+
+# Ejecutar el backend
+mvn spring-boot:run
+```
+
+El backend estará disponible en: `http://localhost:8080`
+
+### 3. Configurar Frontend
+
+```bash
+# Navegar a la carpeta frontend
+cd frontend
+
+# Instalar dependencias
+npm install
+
+# Ejecutar el frontend
+npm start
+```
+
+El frontend estará disponible en: `http://localhost:3000`
+
+## 👤 Usuarios por Defecto
+
+### Administrador
+- **Usuario:** `admin`
+- **Contraseña:** `password123`
+- **Rol:** ADMINISTRADOR
+- **Acceso:** Todos los módulos
+
+### Trabajadores
+- **Usuario:** `jperez` (Juan Pérez Torres)
+- **Contraseña:** `password123`
+- **Rol:** TRABAJADOR
+
+- **Usuario:** `mgarcia` (María García López)
+- **Contraseña:** `password123`
+- **Rol:** TRABAJADOR
+
+**Nota:** Todos los trabajadores tienen acceso a: Dashboard, Productos (lectura), Ventas, Pedidos
+
+## 📁 Estructura del Proyecto
+
+```
+roxfarma-sistema-gestion/
+├── backend/                    # Backend Spring Boot
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/com/roxfarma/
+│   │   │   │   ├── config/    # Configuración de seguridad
+│   │   │   │   ├── controller/# Controladores REST
+│   │   │   │   ├── dto/       # Data Transfer Objects
+│   │   │   │   ├── exception/ # Excepciones personalizadas
+│   │   │   │   ├── model/     # Entidades JPA
+│   │   │   │   ├── repository/# Repositorios
+│   │   │   │   ├── security/  # JWT y seguridad
+│   │   │   │   ├── service/   # Servicios de negocio
+│   │   │   │   └── util/      # Utilidades
+│   │   │   └── resources/
+│   │   │       ├── application.properties
+│   │   │       └── logback-spring.xml
+│   │   └── test/              # Pruebas unitarias
+│   └── pom.xml
+│
+├── frontend/                   # Frontend React
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── auth/          # Login
+│   │   │   ├── common/        # Componentes comunes
+│   │   │   ├── dashboard/     # Dashboard
+│   │   │   ├── productos/     # Gestión de productos
+│   │   │   ├── ventas/        # Gestión de ventas
+│   │   │   ├── pedidos/       # Gestión de pedidos
+│   │   │   ├── clientes/      # Gestión de clientes
+│   │   │   ├── proveedores/   # Gestión de proveedores
+│   │   │   ├── reportes/      # Gestión de reportes
+│   │   │   └── usuarios/      # Gestión de usuarios
+│   │   ├── context/           # Context API
+│   │   ├── services/          # Servicios API
+│   │   ├── types/             # TypeScript types
+│   │   ├── App.tsx
+│   │   └── index.tsx
+│   └── package.json
+│
+├── database/                   # Scripts SQL
+│   └── schema.sql
+│
+└── README.md
+```
+
+## 🔑 Endpoints Principales del API
+
+### Autenticación
+- `POST /api/auth/login` - Iniciar sesión
+
+### Productos
+- `GET /api/productos` - Listar productos
+- `POST /api/productos` - Crear producto (Admin)
+- `PUT /api/productos/{id}` - Actualizar producto (Admin)
+- `DELETE /api/productos/{id}` - Eliminar producto (Admin)
+- `GET /api/productos/alertas/stock-bajo` - Productos con stock bajo
+- `GET /api/productos/alertas/proximos-vencer` - Productos próximos a vencer
+
+### Ventas
+- `POST /api/ventas` - Registrar venta
+- `GET /api/ventas` - Listar ventas
+- `GET /api/ventas/{id}/boleta` - Descargar boleta PDF
+
+### Pedidos
+- `POST /api/pedidos` - Crear pedido
+- `GET /api/pedidos` - Listar pedidos
+- `PUT /api/pedidos/{id}/estado` - Actualizar estado
+
+### Dashboard
+- `GET /api/dashboard/alertas` - Obtener alertas
+- `GET /api/dashboard/estadisticas` - Obtener estadísticas
+
+## 🎯 Funcionalidades por Rol
+
+### Administrador
+- Todas las funcionalidades del sistema
+- Gestión de usuarios
+- Gestión de productos (CRUD completo)
+- Gestión de clientes y proveedores
+- Acceso a reportes
+
+### Trabajador
+- Visualización de productos
+- Registro de ventas
+- Gestión de pedidos
+- Visualización de dashboard
+
+## 📊 Características Técnicas
+
+### Backend
+- Arquitectura en capas (Controller, Service, Repository)
+- Validación de datos con Bean Validation
+- Manejo global de excepciones
+- Logging con Logback
+- Auditoría de operaciones
+- Generación de PDFs con iText
+- Seguridad con JWT
+- CORS configurado
+
+### Frontend
+- Componentes reutilizables
+- Rutas protegidas
+- Manejo de estado con Context API
+- Interceptores HTTP para JWT
+- Validación de formularios
+- Diseño responsive
+- Alertas y notificaciones
+
+## 🧪 Pruebas
+
+```bash
+# Ejecutar pruebas del backend
 cd backend
 mvn test
 
-# Frontend
+# Ejecutar pruebas del frontend
 cd frontend
 npm test
 ```
 
-## 📈 Estado del Proyecto
+## 📝 Notas Importantes
 
-- ✅ Backend: 100% completado 
-- 🚧 Frontend: En desarrollo 
-- 📊 Progreso total: ~40%
+1. **Seguridad**: En producción, cambiar la clave JWT en `application.properties`
+2. **Base de Datos**: Asegurarse de que MySQL esté corriendo antes de iniciar el backend
+3. **CORS**: El backend está configurado para aceptar peticiones desde `http://localhost:3000`
+4. **Logs**: Los logs se guardan en `backend/logs/roxfarma.log`
 
-## 🌳 Flujo de Git
+## 👥 Equipo de Desarrollo
 
-```
-main (rama principal estable)
-├── backend (desarrollo del backend)
-└── frontend (desarrollo del frontend)
-```
-
-## 👨‍💻 Equipo de Desarrollo
-
-- Segundo Silva Ochoa
 - Enzo Siapo Flores
-- Jairo Yarleque Cornejo
-- Angel Rivera Galdos 
 
 ## 📄 Licencia
 
-Proyecto académico - Todos los derechos reservados.
+Universidad Tecnológica del Perú (UTP) - Proyecto Integrador de Sistemas
 
 ---
 
-**Desarrollado para el curso Integrador de Sistemas**
+**Versión:** 1.5.0

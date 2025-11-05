@@ -52,6 +52,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         
+        // Permitir acceso sin autenticación a endpoints de test y auth
+        String path = request.getRequestURI();
+        if (path.startsWith("/api/test/") || path.startsWith("/api/auth/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        
         final String authHeader = request.getHeader("Authorization");
         
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
