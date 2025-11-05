@@ -1,5 +1,6 @@
 package com.roxfarma.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Producto {
     
     @Id
@@ -47,7 +49,7 @@ public class Producto {
      * FetchType.LAZY: La categoría se carga solo cuando se accede a ella.
      * Esto mejora el rendimiento al no cargar datos innecesarios.
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_categoria", nullable = false)
     private Categoria categoria;
 

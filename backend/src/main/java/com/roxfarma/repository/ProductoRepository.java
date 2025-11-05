@@ -10,14 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Repositorio (DAO) para la entidad Producto
- * Además de los métodos CRUD heredados de JpaRepository, este repositorio
- * define métodos personalizados para consultas específicas del negocio:
- * búsqueda de productos: stock bajo, vencimiento, categ; nombre
- * Spring Data JPA genera automáticamente la implementación basándose en query methods
- * @author grupo2
- */
+
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
 
