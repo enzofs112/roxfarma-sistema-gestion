@@ -5,7 +5,7 @@ import { UsuarioDTO, Rol } from '../../types';
 import './UsuarioForm.css';
 
 const UsuarioForm: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -14,7 +14,7 @@ const UsuarioForm: React.FC = () => {
     nombre: '',
     usuario: '',
     contrasena: '',
-    rol: Rol.TRABAJADOR
+    rol: Rol.TRABAJADOR,
   });
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const UsuarioForm: React.FC = () => {
         nombre: usuario.nombre,
         usuario: usuario.usuario,
         contrasena: '', // No mostramos la contraseña
-        rol: usuario.rol
+        rol: usuario.rol,
       });
     } catch (err) {
       setError('Error al cargar usuario');
@@ -68,63 +68,61 @@ const UsuarioForm: React.FC = () => {
 
   return (
     <div className="usuario-form-container">
-      <div className="form-card">
-        <h1>{id ? 'Editar Usuario' : 'Nuevo Usuario'}</h1>
+      <h2>{id ? 'Editar Usuario' : 'Nuevo Usuario'}</h2>
+
+      <form onSubmit={handleSubmit} className="usuario-form">
+        <div className="form-group">
+          <label>Nombre Completo *</label>
+          <input
+            type="text"
+            value={formData.nombre}
+            onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+            placeholder="Ej: Juan Pérez"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Usuario *</label>
+          <input
+            type="text"
+            value={formData.usuario}
+            onChange={(e) => setFormData({ ...formData, usuario: e.target.value })}
+            placeholder="Ej: jperez"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Contraseña {!id && '*'}</label>
+          <input
+            type="password"
+            value={formData.contrasena}
+            onChange={(e) => setFormData({ ...formData, contrasena: e.target.value })}
+            placeholder={id ? 'Dejar en blanco para no cambiar' : 'Ingrese contraseña'}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Rol *</label>
+          <select
+            value={formData.rol}
+            onChange={(e) => setFormData({ ...formData, rol: e.target.value as Rol })}
+          >
+            <option value={Rol.TRABAJADOR}>Trabajador</option>
+            <option value={Rol.ADMINISTRADOR}>Administrador</option>
+          </select>
+        </div>
 
         {error && <div className="error-message">{error}</div>}
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Nombre Completo *</label>
-            <input
-              type="text"
-              value={formData.nombre}
-              onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-              placeholder="Ej: Juan Pérez"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Usuario *</label>
-            <input
-              type="text"
-              value={formData.usuario}
-              onChange={(e) => setFormData({ ...formData, usuario: e.target.value })}
-              placeholder="Ej: jperez"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Contraseña {!id && '*'}</label>
-            <input
-              type="password"
-              value={formData.contrasena}
-              onChange={(e) => setFormData({ ...formData, contrasena: e.target.value })}
-              placeholder={id ? 'Dejar en blanco para no cambiar' : 'Ingrese contraseña'}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Rol *</label>
-            <select
-              value={formData.rol}
-              onChange={(e) => setFormData({ ...formData, rol: e.target.value as Rol })}
-            >
-              <option value={Rol.TRABAJADOR}>Trabajador</option>
-              <option value={Rol.ADMINISTRADOR}>Administrador</option>
-            </select>
-          </div>
-
-          <div className="form-actions">
-            <button type="button" onClick={() => navigate('/usuarios')} className="btn-cancel">
-              Cancelar
-            </button>
-            <button type="submit" disabled={loading} className="btn-submit">
-              {loading ? 'Guardando...' : 'Guardar'}
-            </button>
-          </div>
-        </form>
-      </div>
+        <div className="form-actions">
+          <button type="button" onClick={() => navigate('/usuarios')} className="btn-cancel">
+            Cancelar
+          </button>
+          <button type="submit" disabled={loading} className="btn-submit">
+            {loading ? 'Guardando...' : 'Guardar'}
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

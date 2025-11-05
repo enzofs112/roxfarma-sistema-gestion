@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { usuarioService } from '../../services/usuarioService';
 import { Usuario } from '../../types';
 import './UsuarioList.css';
@@ -8,6 +8,7 @@ const UsuarioList: React.FC = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     cargarUsuarios();
@@ -43,58 +44,61 @@ const UsuarioList: React.FC = () => {
   return (
     <div className="usuario-list-container">
       <div className="header">
-        <h1>Gestión de Usuarios</h1>
-        <Link to="/usuarios/nuevo" className="btn-primary">
+        <h2>Gestión de Usuarios</h2>
+        <button onClick={() => navigate('/usuarios/nuevo')} className="btn-primary">
           + Nuevo Usuario
-        </Link>
+        </button>
       </div>
 
-      <div className="table-container">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Usuario</th>
-              <th>Rol</th>
-              <th>Estado</th>
-              <th>Acciones</th>
+      <table className="tabla-usuarios">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Usuario</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {usuarios.map((usuario) => (
+            <tr key={usuario.idUsuario}>
+              <td>{usuario.idUsuario}</td>
+              <td>{usuario.nombre}</td>
+              <td>{usuario.usuario}</td>
+              <td>
+                <span className={`badge ${usuario.rol.toLowerCase()}`}>
+                  {usuario.rol}
+                </span>
+              </td>
+              <td>
+                <span className={`badge ${usuario.activo ? 'activo' : 'inactivo'}`}>
+                  {usuario.activo ? 'Activo' : 'Inactivo'}
+                </span>
+              </td>
+              <td>
+                <button
+                  onClick={() => navigate(`/usuarios/editar/${usuario.idUsuario}`)}
+                  className="btn-edit"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => handleEliminar(usuario.idUsuario)}
+                  className="btn-delete"
+                >
+                  Eliminar
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {usuarios.map((usuario) => (
-              <tr key={usuario.idUsuario}>
-                <td>{usuario.idUsuario}</td>
-                <td>{usuario.nombre}</td>
-                <td>{usuario.usuario}</td>
-                <td>
-                  <span className={`badge ${usuario.rol.toLowerCase()}`}>
-                    {usuario.rol}
-                  </span>
-                </td>
-                <td>
-                  <span className={`badge ${usuario.activo ? 'activo' : 'inactivo'}`}>
-                    {usuario.activo ? 'Activo' : 'Inactivo'}
-                  </span>
-                </td>
-                <td>
-                  <div className="actions">
-                    <Link to={`/usuarios/editar/${usuario.idUsuario}`} className="btn-edit">
-                      Editar
-                    </Link>
-                    <button 
-                      onClick={() => handleEliminar(usuario.idUsuario)}
-                      className="btn-delete"
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
+
+      {usuarios.length === 0 && (
+        <div className="empty-state">No hay usuarios registrados</div>
+      )}
     </div>
   );
 };

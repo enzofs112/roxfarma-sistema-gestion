@@ -2,20 +2,32 @@ import React, { useState } from 'react';
 import './ReporteList.css';
 
 const ReporteList: React.FC = () => {
+  const [tipoReporte, setTipoReporte] = useState('ventas');
   const [fechaInicio, setFechaInicio] = useState('');
   const [fechaFin, setFechaFin] = useState('');
 
-  const handleGenerarReporte = (tipo: string) => {
-    alert(`Generando reporte de ${tipo}...\nEsta funcionalidad se implementará próximamente.`);
+  const handleGenerar = () => {
+    alert('Funcionalidad de reportes en desarrollo');
   };
 
   return (
     <div className="reporte-container">
-      <h1>Reportes</h1>
+      <h2>Reportes</h2>
 
-      <div className="filtros-card">
-        <h3>Filtros de Fecha</h3>
-        <div className="filtros">
+      <div className="reporte-card">
+        <h3>Generar Reporte</h3>
+        
+        <div className="form-group">
+          <label>Tipo de Reporte</label>
+          <select value={tipoReporte} onChange={(e) => setTipoReporte(e.target.value)}>
+            <option value="ventas">Reporte de Ventas</option>
+            <option value="productos">Reporte de Productos</option>
+            <option value="inventario">Reporte de Inventario</option>
+            <option value="pedidos">Reporte de Pedidos</option>
+          </select>
+        </div>
+
+        <div className="form-row">
           <div className="form-group">
             <label>Fecha Inicio</label>
             <input
@@ -24,6 +36,7 @@ const ReporteList: React.FC = () => {
               onChange={(e) => setFechaInicio(e.target.value)}
             />
           </div>
+
           <div className="form-group">
             <label>Fecha Fin</label>
             <input
@@ -33,61 +46,48 @@ const ReporteList: React.FC = () => {
             />
           </div>
         </div>
+
+        <button onClick={handleGenerar} className="btn-generar">
+          📊 Generar Reporte
+        </button>
       </div>
 
-      <div className="reportes-grid">
-        <div className="reporte-card">
-          <div className="reporte-icon">📊</div>
-          <h3>Reporte de Ventas</h3>
-          <p>Resumen de ventas por período</p>
-          <button onClick={() => handleGenerarReporte('Ventas')} className="btn-generar">
-            Generar Reporte
-          </button>
+      <div className="reportes-disponibles">
+        <h3>Reportes Disponibles</h3>
+        <div className="reporte-item">
+          <span className="icon">📈</span>
+          <div>
+            <h4>Ventas del Mes</h4>
+            <p>Resumen de ventas mensuales</p>
+          </div>
+          <button className="btn-ver">Ver</button>
         </div>
 
-        <div className="reporte-card">
-          <div className="reporte-icon">📦</div>
-          <h3>Reporte de Inventario</h3>
-          <p>Estado actual del inventario</p>
-          <button onClick={() => handleGenerarReporte('Inventario')} className="btn-generar">
-            Generar Reporte
-          </button>
+        <div className="reporte-item">
+          <span className="icon">📦</span>
+          <div>
+            <h4>Inventario Actual</h4>
+            <p>Estado actual del inventario</p>
+          </div>
+          <button className="btn-ver">Ver</button>
         </div>
 
-        <div className="reporte-card">
-          <div className="reporte-icon">🏢</div>
-          <h3>Reporte de Pedidos</h3>
-          <p>Pedidos realizados a proveedores</p>
-          <button onClick={() => handleGenerarReporte('Pedidos')} className="btn-generar">
-            Generar Reporte
-          </button>
+        <div className="reporte-item">
+          <span className="icon">💊</span>
+          <div>
+            <h4>Productos Más Vendidos</h4>
+            <p>Top 10 productos del mes</p>
+          </div>
+          <button className="btn-ver">Ver</button>
         </div>
 
-        <div className="reporte-card">
-          <div className="reporte-icon">👥</div>
-          <h3>Reporte de Clientes</h3>
-          <p>Listado de clientes y compras</p>
-          <button onClick={() => handleGenerarReporte('Clientes')} className="btn-generar">
-            Generar Reporte
-          </button>
-        </div>
-
-        <div className="reporte-card">
-          <div className="reporte-icon">💰</div>
-          <h3>Reporte Financiero</h3>
-          <p>Ingresos y gastos del período</p>
-          <button onClick={() => handleGenerarReporte('Financiero')} className="btn-generar">
-            Generar Reporte
-          </button>
-        </div>
-
-        <div className="reporte-card">
-          <div className="reporte-icon">⚠️</div>
-          <h3>Reporte de Alertas</h3>
-          <p>Productos con stock bajo o vencidos</p>
-          <button onClick={() => handleGenerarReporte('Alertas')} className="btn-generar">
-            Generar Reporte
-          </button>
+        <div className="reporte-item">
+          <span className="icon">⚠️</span>
+          <div>
+            <h4>Alertas de Stock</h4>
+            <p>Productos con stock bajo</p>
+          </div>
+          <button className="btn-ver">Ver</button>
         </div>
       </div>
     </div>

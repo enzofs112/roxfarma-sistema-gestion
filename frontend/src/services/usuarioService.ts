@@ -24,5 +24,5 @@ export const usuarioService = {
 
   eliminar: async (id: number): Promise<void> => {
     await api.delete(`/api/usuarios/${id}`);
-  }
+  },
 };
