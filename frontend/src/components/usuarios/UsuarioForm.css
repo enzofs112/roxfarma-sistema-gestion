@@ -4,9 +4,30 @@
   margin: 0 auto;
 }
 
-.form-header h2 {
-  color: #333;
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
+}
+
+.form-header h2 {
+  margin: 0;
+  color: #333;
+}
+
+.btn-back {
+  background-color: #757575;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-back:hover {
+  background-color: #616161;
 }
 
 .usuario-form {
@@ -43,12 +64,10 @@
   border-color: #4CAF50;
 }
 
-.error-message {
-  background-color: #ffebee;
-  color: #c62828;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 20px;
+.form-group input:disabled,
+.form-group select:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
 }
 
 .form-actions {
@@ -59,24 +78,25 @@
 }
 
 .btn-cancel {
+  background-color: #757575;
+  color: white;
+  border: none;
   padding: 10px 20px;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
 }
 
 .btn-cancel:hover {
-  background-color: #f5f5f5;
+  background-color: #616161;
 }
 
 .btn-submit {
-  padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
 }
@@ -86,6 +106,14 @@
 }
 
 .btn-submit:disabled {
-  background-color: #ccc;
+  background-color: #cccccc;
   cursor: not-allowed;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
 }

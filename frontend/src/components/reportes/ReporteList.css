@@ -2,74 +2,116 @@
   padding: 20px;
 }
 
-.header h2 {
+.reporte-container h2 {
   color: #333;
+  margin-bottom: 30px;
+}
+
+.reporte-section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
 
-.reporte-content {
+.reporte-section h3 {
+  color: #555;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.stats-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
 }
 
-.reporte-card, .reporte-info {
-  background: white;
-  padding: 30px;
+.stat-card {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: #f5f5f5;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-left: 4px solid #4CAF50;
 }
 
-.reporte-card h3, .reporte-info h3 {
-  margin-top: 0;
-  color: #555;
+.stat-card.warning {
+  border-left-color: #ff9800;
 }
 
-.form-group {
-  margin-bottom: 20px;
+.stat-card.danger {
+  border-left-color: #f44336;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #555;
-  font-weight: 500;
+.stat-icon {
+  font-size: 36px;
+  margin-right: 15px;
 }
 
-.form-group select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.stat-info {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+.stat-label {
   font-size: 14px;
+  color: #666;
+  margin-top: 5px;
 }
 
-.btn-generate {
+.reporte-table {
   width: 100%;
+  border-collapse: collapse;
+}
+
+.reporte-table thead {
+  background-color: #34495e;
+}
+
+.reporte-table th {
   padding: 12px;
-  background-color: #2196F3;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
+  text-align: left;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #34495e;
+  border-bottom: 2px solid #ddd;
 }
 
-.btn-generate:hover {
-  background-color: #1976D2;
-}
-
-.reporte-info ul {
-  list-style: none;
-  padding: 0;
-}
-
-.reporte-info li {
-  padding: 10px 0;
+.reporte-table td {
+  padding: 12px;
   border-bottom: 1px solid #eee;
 }
 
-.reporte-info li:last-child {
-  border-bottom: none;
+.reporte-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.stock-bajo {
+  color: #f44336;
+  font-weight: bold;
+}
+
+.fecha-vencimiento {
+  color: #ff9800;
+  font-weight: 500;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 16px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 18px;
 }

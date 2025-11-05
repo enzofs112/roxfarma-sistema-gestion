@@ -66,14 +66,14 @@ const Dashboard: React.FC = () => {
         <div className="dashboard-card warning" onClick={() => navigate('/productos')}>
           <div className="card-icon">⚠️</div>
           <h3>Stock Bajo</h3>
-          <p className="card-number">{alertas?.productosStockBajo?.length || 0}</p>
+          <p className="card-number">{alertas?.stockBajo?.length || 0}</p>
           <p>Productos con stock bajo</p>
         </div>
 
         <div className="dashboard-card danger" onClick={() => navigate('/productos')}>
           <div className="card-icon">📅</div>
           <h3>Por Vencer</h3>
-          <p className="card-number">{alertas?.productosProximosVencer?.length || 0}</p>
+          <p className="card-number">{alertas?.proximosVencer?.length || 0}</p>
           <p>Productos próximos a vencer</p>
         </div>
 
@@ -84,15 +84,15 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {alertas && (alertas.productosStockBajo.length > 0 || alertas.productosProximosVencer.length > 0) && (
+      {alertas && ((alertas.stockBajo && alertas.stockBajo.length > 0) || (alertas.proximosVencer && alertas.proximosVencer.length > 0)) && (
         <div className="dashboard-alerts">
           <h3>⚠️ Alertas Importantes</h3>
           
-          {alertas.productosStockBajo.length > 0 && (
+          {alertas.stockBajo && alertas.stockBajo.length > 0 && (
             <div className="alert-section">
               <h4>Productos con Stock Bajo</h4>
               <ul>
-                {alertas.productosStockBajo.slice(0, 5).map((p: any) => (
+                {alertas.stockBajo.slice(0, 5).map((p: any) => (
                   <li key={p.idProducto}>
                     {p.nombre} - Stock: {p.stock}
                   </li>
@@ -101,13 +101,15 @@ const Dashboard: React.FC = () => {
             </div>
           )}
 
-          {alertas.productosProximosVencer.length > 0 && (
+          {alertas.proximosVencer && alertas.proximosVencer.length > 0 && (
             <div className="alert-section">
               <h4>Productos Próximos a Vencer</h4>
               <ul>
-                {alertas.productosProximosVencer.slice(0, 5).map((p: any) => (
+                {alertas.proximosVencer.slice(0, 5).map((p: any) => (
                   <li key={p.idProducto}>
-                    {p.nombre} - Vence: {new Date(p.fechaVencimiento).toLocaleDateString()}
+                    {p.nombre} - Vence: {p.fechaVencimiento 
+                      ? new Date(p.fechaVencimiento).toLocaleDateString()
+                      : 'N/A'}
                   </li>
                 ))}
               </ul>

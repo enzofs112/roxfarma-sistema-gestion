@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { usuarioService } from '../../services/usuarioService';
-import { UsuarioDTO, Rol } from '../../types';
+import { Rol } from '../../types';
 import './UsuarioForm.css';
 
 const UsuarioForm: React.FC = () => {
@@ -10,7 +10,7 @@ const UsuarioForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const [formData, setFormData] = useState<UsuarioDTO>({
+  const [formData, setFormData] = useState({
     nombre: '',
     usuario: '',
     contrasena: '',
@@ -25,15 +25,15 @@ const UsuarioForm: React.FC = () => {
 
   const cargarUsuario = async () => {
     try {
-      const usuario = await usuarioService.obtenerUsuario(Number(id));
+      const usuario = await usuarioService.obtenerPorId(Number(id));
       setFormData({
         nombre: usuario.nombre,
         usuario: usuario.usuario,
-        contrasena: '', // No mostramos la contraseña
+        contrasena: '',
         rol: usuario.rol
       });
     } catch (err) {
-      setError('Error al cargar el usuario');
+      setError('Error al cargar usuario');
     }
   };
 
@@ -61,13 +61,13 @@ const UsuarioForm: React.FC = () => {
     try {
       setLoading(true);
       if (id) {
-        await usuarioService.actualizarUsuario(Number(id), formData);
+        await usuarioService.actualizar(Number(id), formData);
       } else {
-        await usuarioService.crearUsuario(formData);
+        await usuarioService.crear(formData);
       }
       navigate('/usuarios');
     } catch (err: any) {
-      setError(err.response?.data?.mensaje || 'Error al guardar el usuario');
+      setError(err.response?.data?.mensaje || 'Error al guardar usuario');
     } finally {
       setLoading(false);
     }
@@ -77,7 +77,12 @@ const UsuarioForm: React.FC = () => {
     <div className="usuario-form-container">
       <div className="form-header">
         <h2>{id ? '✏️ Editar Usuario' : '➕ Nuevo Usuario'}</h2>
+        <button className="btn-back" onClick={() => navigate('/usuarios')}>
+          ← Volver
+        </button>
       </div>
+
+      {error && <div className="error-message">{error}</div>}
 
       <form onSubmit={handleSubmit} className="usuario-form">
         <div className="form-group">
@@ -89,6 +94,7 @@ const UsuarioForm: React.FC = () => {
             value={formData.nombre}
             onChange={handleChange}
             required
+            disabled={loading}
           />
         </div>
 
@@ -101,12 +107,13 @@ const UsuarioForm: React.FC = () => {
             value={formData.usuario}
             onChange={handleChange}
             required
+            disabled={loading}
           />
         </div>
 
         <div className="form-group">
           <label htmlFor="contrasena">
-            Contraseña {id ? '(dejar vacío para no cambiar)' : '*'}
+            Contraseña {id ? '(dejar en blanco para no cambiar)' : '*'}
           </label>
           <input
             type="password"
@@ -115,6 +122,7 @@ const UsuarioForm: React.FC = () => {
             value={formData.contrasena}
             onChange={handleChange}
             required={!id}
+            disabled={loading}
           />
         </div>
 
@@ -126,13 +134,12 @@ const UsuarioForm: React.FC = () => {
             value={formData.rol}
             onChange={handleChange}
             required
+            disabled={loading}
           >
             <option value={Rol.TRABAJADOR}>Trabajador</option>
             <option value={Rol.ADMINISTRADOR}>Administrador</option>
           </select>
         </div>
-
-        {error && <div className="error-message">{error}</div>}
 
         <div className="form-actions">
           <button type="button" className="btn-cancel" onClick={() => navigate('/usuarios')}>

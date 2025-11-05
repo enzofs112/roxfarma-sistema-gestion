@@ -17,30 +17,29 @@ const UsuarioList: React.FC = () => {
   const cargarUsuarios = async () => {
     try {
       setLoading(true);
-      const data = await usuarioService.listarUsuarios();
+      const data = await usuarioService.listar();
       setUsuarios(data);
       setError('');
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error al cargar usuarios:', err);
-      setError('Error al cargar los usuarios');
+      setError('Error al cargar la lista de usuarios');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleEliminar = async (id: number) => {
-    if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
+  const handleEliminar = async (id: number, nombre: string) => {
+    if (window.confirm(`¿Está seguro de eliminar al usuario ${nombre}?`)) {
       try {
-        await usuarioService.eliminarUsuario(id);
+        await usuarioService.eliminar(id);
         cargarUsuarios();
-      } catch (err) {
-        alert('Error al eliminar el usuario');
+      } catch (err: any) {
+        alert('Error al eliminar usuario');
       }
     }
   };
 
   if (loading) return <div className="loading">Cargando usuarios...</div>;
-  if (error) return <div className="error">{error}</div>;
 
   return (
     <div className="usuario-list-container">
@@ -51,6 +50,8 @@ const UsuarioList: React.FC = () => {
         </button>
       </div>
 
+      {error && <div className="error-message">{error}</div>}
+
       <div className="table-container">
         <table className="data-table">
           <thead>
@@ -60,6 +61,7 @@ const UsuarioList: React.FC = () => {
               <th>Usuario</th>
               <th>Rol</th>
               <th>Estado</th>
+              <th>Fecha Creación</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -70,14 +72,19 @@ const UsuarioList: React.FC = () => {
                 <td>{usuario.nombre}</td>
                 <td>{usuario.usuario}</td>
                 <td>
-                  <span className={`badge ${usuario.rol.toLowerCase()}`}>
+                  <span className={`badge badge-${usuario.rol.toLowerCase()}`}>
                     {usuario.rol}
                   </span>
                 </td>
                 <td>
-                  <span className={`badge ${usuario.activo ? 'activo' : 'inactivo'}`}>
+                  <span className={`badge ${usuario.activo ? 'badge-activo' : 'badge-inactivo'}`}>
                     {usuario.activo ? 'Activo' : 'Inactivo'}
                   </span>
+                </td>
+                <td>
+                  {usuario.fechaCreacion 
+                    ? new Date(usuario.fechaCreacion).toLocaleDateString() 
+                    : 'N/A'}
                 </td>
                 <td>
                   <button
@@ -88,7 +95,7 @@ const UsuarioList: React.FC = () => {
                   </button>
                   <button
                     className="btn-delete"
-                    onClick={() => handleEliminar(usuario.idUsuario)}
+                    onClick={() => handleEliminar(usuario.idUsuario, usuario.nombre)}
                   >
                     🗑️
                   </button>
@@ -97,6 +104,10 @@ const UsuarioList: React.FC = () => {
             ))}
           </tbody>
         </table>
+
+        {usuarios.length === 0 && !loading && (
+          <div className="empty-state">No hay usuarios registrados</div>
+        )}
       </div>
     </div>
   );

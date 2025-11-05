@@ -1,46 +1,135 @@
 import React, { useState } from 'react';
+import { dashboardService } from '../../services/dashboardService';
 import './ReporteList.css';
 
 const ReporteList: React.FC = () => {
-  const [tipoReporte, setTipoReporte] = useState('ventas');
+  const [loading, setLoading] = useState(false);
+  const [estadisticas, setEstadisticas] = useState<any>(null);
+  const [alertas, setAlertas] = useState<any>(null);
 
-  const generarReporte = () => {
-    alert(`Generando reporte de ${tipoReporte}...`);
-    // Aquí iría la lógica para generar el reporte
+  const cargarReportes = async () => {
+    try {
+      setLoading(true);
+      const [stats, alerts] = await Promise.all([
+        dashboardService.obtenerEstadisticas(),
+        dashboardService.obtenerAlertas()
+      ]);
+      setEstadisticas(stats);
+      setAlertas(alerts);
+    } catch (err) {
+      console.error('Error al cargar reportes:', err);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  React.useEffect(() => {
+    cargarReportes();
+  }, []);
+
+  if (loading) return <div className="loading">Cargando reportes...</div>;
 
   return (
     <div className="reporte-container">
-      <div className="header">
-        <h2>📈 Reportes</h2>
+      <h2>📈 Reportes del Sistema</h2>
+
+      <div className="reporte-section">
+        <h3>📊 Estadísticas Generales</h3>
+        {estadisticas && (
+          <div className="stats-grid">
+            <div className="stat-card">
+              <div className="stat-icon">📦</div>
+              <div className="stat-info">
+                <div className="stat-value">{estadisticas.totalProductos}</div>
+                <div className="stat-label">Total Productos</div>
+              </div>
+            </div>
+
+            <div className="stat-card">
+              <div className="stat-icon">📊</div>
+              <div className="stat-info">
+                <div className="stat-value">{estadisticas.stockTotal}</div>
+                <div className="stat-label">Stock Total</div>
+              </div>
+            </div>
+
+            <div className="stat-card warning">
+              <div className="stat-icon">⚠️</div>
+              <div className="stat-info">
+                <div className="stat-value">{estadisticas.alertasStockBajo}</div>
+                <div className="stat-label">Alertas Stock Bajo</div>
+              </div>
+            </div>
+
+            <div className="stat-card danger">
+              <div className="stat-icon">⏰</div>
+              <div className="stat-info">
+                <div className="stat-value">{estadisticas.alertasVencimiento}</div>
+                <div className="stat-label">Próximos a Vencer</div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      <div className="reporte-content">
-        <div className="reporte-card">
-          <h3>Generar Reporte</h3>
-          <div className="form-group">
-            <label>Tipo de Reporte</label>
-            <select value={tipoReporte} onChange={(e) => setTipoReporte(e.target.value)}>
-              <option value="ventas">Reporte de Ventas</option>
-              <option value="productos">Reporte de Productos</option>
-              <option value="inventario">Reporte de Inventario</option>
-              <option value="pedidos">Reporte de Pedidos</option>
-            </select>
-          </div>
-          <button className="btn-generate" onClick={generarReporte}>
-            Generar Reporte
-          </button>
-        </div>
+      <div className="reporte-section">
+        <h3>⚠️ Productos con Stock Bajo</h3>
+        {alertas && alertas.stockBajo && alertas.stockBajo.length > 0 ? (
+          <table className="reporte-table">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Stock Actual</th>
+                <th>Precio</th>
+              </tr>
+            </thead>
+            <tbody>
+              {alertas.stockBajo.map((producto: any) => (
+                <tr key={producto.idProducto}>
+                  <td>{producto.nombre}</td>
+                  <td>{producto.categoria?.nombre || 'N/A'}</td>
+                  <td className="stock-bajo">{producto.stock}</td>
+                  <td>S/ {producto.precio.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="empty-state">✅ No hay productos con stock bajo</div>
+        )}
+      </div>
 
-        <div className="reporte-info">
-          <h3>📊 Reportes Disponibles</h3>
-          <ul>
-            <li>✅ Reporte de Ventas Diarias</li>
-            <li>✅ Reporte de Productos Más Vendidos</li>
-            <li>✅ Reporte de Inventario Actual</li>
-            <li>✅ Reporte de Pedidos Pendientes</li>
-          </ul>
-        </div>
+      <div className="reporte-section">
+        <h3>⏰ Productos Próximos a Vencer</h3>
+        {alertas && alertas.proximosVencer && alertas.proximosVencer.length > 0 ? (
+          <table className="reporte-table">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Fecha Vencimiento</th>
+                <th>Stock</th>
+              </tr>
+            </thead>
+            <tbody>
+              {alertas.proximosVencer.map((producto: any) => (
+                <tr key={producto.idProducto}>
+                  <td>{producto.nombre}</td>
+                  <td>{producto.categoria?.nombre || 'N/A'}</td>
+                  <td className="fecha-vencimiento">
+                    {producto.fechaVencimiento 
+                      ? new Date(producto.fechaVencimiento).toLocaleDateString()
+                      : 'N/A'}
+                  </td>
+                  <td>{producto.stock}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="empty-state">✅ No hay productos próximos a vencer</div>
+        )}
       </div>
     </div>
   );

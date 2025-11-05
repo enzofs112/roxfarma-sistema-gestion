@@ -1,8 +1,11 @@
 import api from './api';
+import { Producto } from '../types';
 
 export interface Alertas {
-  productosStockBajo: any[];
-  productosProximosVencer: any[];
+  stockBajo: Producto[];
+  proximosVencer: Producto[];
+  cantidadStockBajo: number;
+  cantidadProximosVencer: number;
 }
 
 export interface Estadisticas {

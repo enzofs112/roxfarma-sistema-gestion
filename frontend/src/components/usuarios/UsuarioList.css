@@ -17,8 +17,8 @@
 .btn-primary {
   background-color: #4CAF50;
   color: white;
-  padding: 10px 20px;
   border: none;
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
@@ -48,7 +48,7 @@
   padding: 12px;
   text-align: left;
   font-weight: 600;
-  color: #555;
+  color: #ffffff;
   border-bottom: 2px solid #ddd;
 }
 
@@ -62,28 +62,28 @@
 }
 
 .badge {
-  padding: 4px 12px;
+  padding: 4px 8px;
   border-radius: 12px;
   font-size: 12px;
   font-weight: 500;
 }
 
-.badge.administrador {
+.badge-administrador {
   background-color: #e3f2fd;
   color: #1976d2;
 }
 
-.badge.trabajador {
+.badge-trabajador {
   background-color: #f3e5f5;
   color: #7b1fa2;
 }
 
-.badge.activo {
+.badge-activo {
   background-color: #e8f5e9;
   color: #2e7d32;
 }
 
-.badge.inactivo {
+.badge-inactivo {
   background-color: #ffebee;
   color: #c62828;
 }
@@ -98,19 +98,23 @@
 }
 
 .btn-edit:hover {
-  transform: scale(1.2);
+  opacity: 0.7;
 }
 
 .btn-delete:hover {
-  transform: scale(1.2);
+  opacity: 0.7;
 }
 
-.loading, .error {
+.loading, .empty-state {
   text-align: center;
   padding: 40px;
-  font-size: 16px;
+  color: #666;
 }
 
-.error {
-  color: #d32f2f;
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
 }

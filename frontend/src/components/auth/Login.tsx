@@ -81,9 +81,7 @@ const Login: React.FC = () => {
         
         <div className="login-footer">
           <p>Usuarios de prueba:</p>
-          <small>admin / admin123 (Administrador)</small>
-          <br />
-          <small>trabajador1 / trabajador123 (Trabajador)</small>
+          <small>admin / password123</small>
         </div>
       </div>
     </div>

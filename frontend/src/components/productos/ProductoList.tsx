@@ -99,7 +99,11 @@ const ProductoList: React.FC = () => {
                 {producto.stock}
                 {producto.stock < 10 && <span className="badge badge-warning">⚠️ Bajo</span>}
               </td>
-              <td>{new Date(producto.fechaVencimiento).toLocaleDateString()}</td>
+              <td>
+                {producto.fechaVencimiento 
+                  ? new Date(producto.fechaVencimiento).toLocaleDateString()
+                  : 'N/A'}
+              </td>
               <td>
                 <button className="btn btn-sm btn-info" onClick={() => navigate(`/productos/${producto.idProducto}`)}>
                   Ver
