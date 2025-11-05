@@ -90,6 +90,12 @@
             <type>pom</type>
         </dependency>
         
+        <!-- Jackson Hibernate Module Para manejar proxies de Hibernate -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hibernate6</artifactId>
+        </dependency>
+        
         <!-- Spring Boot DevTools Recarga automática en desarrollo -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

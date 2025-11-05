@@ -180,12 +180,12 @@ INSERT INTO categoria (nombre, descripcion) VALUES
 ('Antidiabéticos', 'Medicamentos para controlar la diabetes');
 
 -- Insertar usuarios del sistema
--- Contraseña para ambos: password123
--- Hash generado con BCrypt (factor 12): $2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYIR.eLb4W6
+-- Contraseña para todos: password123
+-- Hash generado con BCrypt (factor 12): $2a$12$WiIu637iHMAKVy25BxrV6eIFt9LyR.C4rEXW7xhF/U5ObsN4aC9uW
 INSERT INTO usuario (nombre, usuario, contrasena, rol, activo) VALUES
-('Administrador Sistema', 'admin', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYIR.eLb4W6', 'ADMINISTRADOR', TRUE),
-('Juan Pérez Torres', 'jperez', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYIR.eLb4W6', 'TRABAJADOR', TRUE),
-('María García López', 'mgarcia', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYIR.eLb4W6', 'TRABAJADOR', TRUE);
+('Administrador Sistema', 'admin', '$2a$12$WiIu637iHMAKVy25BxrV6eIFt9LyR.C4rEXW7xhF/U5ObsN4aC9uW', 'ADMINISTRADOR', TRUE),
+('Juan Pérez Torres', 'jperez', '$2a$12$WiIu637iHMAKVy25BxrV6eIFt9LyR.C4rEXW7xhF/U5ObsN4aC9uW', 'TRABAJADOR', TRUE),
+('María García López', 'mgarcia', '$2a$12$WiIu637iHMAKVy25BxrV6eIFt9LyR.C4rEXW7xhF/U5ObsN4aC9uW', 'TRABAJADOR', TRUE);
 
 -- Insertar productos de ejemplo
 INSERT INTO producto (nombre, descripcion, precio, fecha_vencimiento, stock, id_categoria) VALUES
