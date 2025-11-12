@@ -71,14 +71,11 @@ class ProductoServiceTest {
 
     @Test
     void debeCrearProductoCorrectamente() {
-        // Given - Preparar
         when(categoriaRepository.findById(1L)).thenReturn(Optional.of(categoria));
         when(productoRepository.save(any(Producto.class))).thenReturn(producto);
 
-        // When - Ejecutar
         Producto resultado = productoService.crearProducto(productoDTO);
 
-        // Then - Verificar
         assertNotNull(resultado);
         assertEquals("Paracetamol", resultado.getNombre());
         assertEquals(new BigDecimal("5.50"), resultado.getPrecio());
@@ -88,10 +85,8 @@ class ProductoServiceTest {
 
     @Test
     void debeLanzarExcepcionCuandoCategoriaNoExiste() {
-        // Given
         when(categoriaRepository.findById(1L)).thenReturn(Optional.empty());
 
-        // When & Then
         assertThrows(ResourceNotFoundException.class, () -> {
             productoService.crearProducto(productoDTO);
         });
@@ -102,14 +97,11 @@ class ProductoServiceTest {
 
     @Test
     void debeListarTodosLosProductos() {
-        // Given
         List<Producto> productos = Arrays.asList(producto);
         when(productoRepository.findAll()).thenReturn(productos);
 
-        // When
         List<Producto> resultado = productoService.listarTodosLosProductos();
 
-        // Then
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
         assertEquals("Paracetamol", resultado.get(0).getNombre());
@@ -118,15 +110,12 @@ class ProductoServiceTest {
 
     @Test
     void debeObtenerProductosConStockBajo() {
-        // Given
         producto.setStock(5);
         List<Producto> productos = Arrays.asList(producto);
         when(productoRepository.findByStockLessThan(10)).thenReturn(productos);
 
-        // When
         List<Producto> resultado = productoService.obtenerProductosConStockBajo(10);
 
-        // Then
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
         assertTrue(resultado.get(0).getStock() < 10);
@@ -135,13 +124,10 @@ class ProductoServiceTest {
 
     @Test
     void debeObtenerProductoPorId() {
-        // Given
         when(productoRepository.findById(1L)).thenReturn(Optional.of(producto));
 
-        // When
         Producto resultado = productoService.obtenerProductoPorId(1L);
 
-        // Then
         assertNotNull(resultado);
         assertEquals(1L, resultado.getIdProducto());
         assertEquals("Paracetamol", resultado.getNombre());
@@ -150,10 +136,8 @@ class ProductoServiceTest {
 
     @Test
     void debeLanzarExcepcionCuandoProductoNoExiste() {
-        // Given
         when(productoRepository.findById(999L)).thenReturn(Optional.empty());
 
-        // When & Then
         assertThrows(ResourceNotFoundException.class, () -> {
             productoService.obtenerProductoPorId(999L);
         });
@@ -163,17 +147,14 @@ class ProductoServiceTest {
 
     @Test
     void debeActualizarProductoCorrectamente() {
-        // Given
         when(productoRepository.findById(1L)).thenReturn(Optional.of(producto));
         when(productoRepository.save(any(Producto.class))).thenReturn(producto);
 
         productoDTO.setPrecio(new BigDecimal("6.00"));
         productoDTO.setIdCategoria(1L); // Misma categoría, no debería buscarla
 
-        // When
         Producto resultado = productoService.actualizarProducto(1L, productoDTO);
 
-        // Then
         assertNotNull(resultado);
         verify(productoRepository, times(1)).findById(1L);
         verify(productoRepository, times(1)).save(any(Producto.class));

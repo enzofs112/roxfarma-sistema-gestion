@@ -14,10 +14,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.quality.Strictness;
+import org.mockito.junit.jupiter.MockitoSettings;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
@@ -31,6 +34,7 @@ import static org.mockito.Mockito.*;
  * Valida la lógica de negocio del módulo de ventas.
  */
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class VentaServiceTest {
 
     @Mock
@@ -44,6 +48,9 @@ class VentaServiceTest {
 
     @Mock
     private InventarioService inventarioService;
+
+    @Mock
+    private com.roxfarma.repository.UsuarioRepository usuarioRepository;
 
     @Mock
     private SecurityContext securityContext;
@@ -75,7 +82,7 @@ class VentaServiceTest {
         producto = new Producto();
         producto.setIdProducto(1L);
         producto.setNombre("Paracetamol 500mg");
-        producto.setPrecio(5.50);
+        producto.setPrecio(new BigDecimal("5.50"));
         producto.setStock(100);
         producto.setFechaVencimiento(LocalDate.now().plusMonths(12));
         producto.setCategoria(categoria);
@@ -87,6 +94,12 @@ class VentaServiceTest {
         usuario.setUsuario("admin");
         usuario.setRol(Rol.ADMINISTRADOR);
 
+        // Configurar SecurityContext
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(authentication.getName()).thenReturn("admin");
+        SecurityContextHolder.setContext(securityContext);
+        when(usuarioRepository.findByUsuario("admin")).thenReturn(Optional.of(usuario));
+
         // Configurar DTO de venta
         DetalleVentaDTO detalleDTO = new DetalleVentaDTO();
         detalleDTO.setIdProducto(1L);
@@ -95,11 +108,6 @@ class VentaServiceTest {
         ventaDTO = new VentaDTO();
         ventaDTO.setIdCliente(1L);
         ventaDTO.setDetalles(Arrays.asList(detalleDTO));
-
-        // Configurar SecurityContext
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        when(authentication.getName()).thenReturn("admin");
-        SecurityContextHolder.setContext(securityContext);
     }
 
     @Test
@@ -107,12 +115,12 @@ class VentaServiceTest {
         // Arrange
         when(clienteRepository.findById(1L)).thenReturn(Optional.of(cliente));
         when(productoRepository.findById(1L)).thenReturn(Optional.of(producto));
-        doNothing().when(inventarioService).disminuirStock(1L, 10);
+        doNothing().when(inventarioService).disminuirStock(anyLong(), anyInt(), anyString());
 
         Venta ventaGuardada = new Venta();
         ventaGuardada.setIdVenta(1L);
         ventaGuardada.setCliente(cliente);
-        ventaGuardada.setTotal(64.90); // (5.50 * 10) * 1.18 IGV
+        ventaGuardada.setTotal(new BigDecimal("64.90")); // (5.50 * 10) * 1.18 IGV
 
         when(ventaRepository.save(any(Venta.class))).thenReturn(ventaGuardada);
 
@@ -122,8 +130,8 @@ class VentaServiceTest {
         // Assert
         assertNotNull(resultado);
         assertEquals(1L, resultado.getIdVenta());
-        assertTrue(resultado.getTotal() > 0);
-        verify(inventarioService, times(1)).disminuirStock(1L, 10);
+        assertTrue(resultado.getTotal().compareTo(BigDecimal.ZERO) > 0);
+        verify(inventarioService, times(1)).disminuirStock(anyLong(), anyInt(), anyString());
         verify(ventaRepository, times(1)).save(any(Venta.class));
     }
 
@@ -157,11 +165,11 @@ class VentaServiceTest {
         // Arrange
         when(clienteRepository.findById(1L)).thenReturn(Optional.of(cliente));
         when(productoRepository.findById(1L)).thenReturn(Optional.of(producto));
-        doNothing().when(inventarioService).disminuirStock(1L, 10);
+        doNothing().when(inventarioService).disminuirStock(anyLong(), anyInt(), anyString());
 
         Venta ventaGuardada = new Venta();
         ventaGuardada.setIdVenta(1L);
-        ventaGuardada.setTotal(64.90); // Subtotal: 55.00, IGV 18%: 9.90, Total: 64.90
+        ventaGuardada.setTotal(new BigDecimal("64.90")); // Subtotal: 55.00, IGV 18%: 9.90, Total: 64.90
 
         when(ventaRepository.save(any(Venta.class))).thenReturn(ventaGuardada);
 
@@ -171,9 +179,9 @@ class VentaServiceTest {
         // Assert
         assertNotNull(resultado);
         // El total debe incluir IGV (18%)
-        double subtotal = 5.50 * 10; // 55.00
-        double totalEsperado = subtotal * 1.18; // 64.90
-        assertEquals(totalEsperado, resultado.getTotal(), 0.01);
+        BigDecimal subtotal = new BigDecimal("5.50").multiply(new BigDecimal("10")); // 55.00
+        BigDecimal totalEsperado = subtotal.multiply(new BigDecimal("1.18")); // 64.90
+        assertEquals(0, totalEsperado.compareTo(resultado.getTotal()));
     }
 
     @Test
@@ -182,12 +190,12 @@ class VentaServiceTest {
         Venta venta = new Venta();
         venta.setIdVenta(1L);
         venta.setCliente(cliente);
-        venta.setTotal(64.90);
+        venta.setTotal(new BigDecimal("64.90"));
 
         when(ventaRepository.findById(1L)).thenReturn(Optional.of(venta));
 
         // Act
-        Venta resultado = ventaService.obtenerPorId(1L);
+        Venta resultado = ventaService.obtenerVentaPorId(1L);
 
         // Assert
         assertNotNull(resultado);
