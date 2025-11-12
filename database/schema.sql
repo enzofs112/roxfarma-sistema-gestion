@@ -238,7 +238,7 @@ INSERT INTO producto (nombre, presentacion, descripcion, precio, fecha_vencimien
 -- Antihipertensivos (para presión alta)
 ('Enalapril', '10mg x 30 tabletas', 'Antihipertensivo IECA primera línea', 18.00, '2025-09-25', 7, 7),
 ('Enalapril', '20mg x 30 tabletas', 'Antihipertensivo IECA dosis alta', 24.00, '2025-10-15', 45, 7),
-('Losartán', '50mg x 30 tabletas', 'Antihipertensivo ARA-II', 28.00, '2024-11-20', 38, 7),
+('Losartán', '50mg x 30 tabletas', 'Antihipertensivo ARA-II', 28.00, '2025-11-20', 38, 7),
 ('Losartán', '100mg x 30 tabletas', 'Antihipertensivo ARA-II dosis alta', 38.00, '2025-11-30', 50, 7),
 ('Amlodipino', '5mg x 30 tabletas', 'Antihipertensivo calcioantagonista', 15.00, '2025-12-10', 75, 7),
 ('Hidroclorotiazida', '25mg x 30 tabletas', 'Diurético antihipertensivo', 12.00, '2025-11-05', 60, 7),
@@ -250,8 +250,8 @@ INSERT INTO producto (nombre, presentacion, descripcion, precio, fecha_vencimien
 ('Glimepirida', '2mg x 30 tabletas', 'Antidiabético oral sulfonilurea moderna', 32.00, '2025-11-25', 35, 8),
 
 -- Productos próximos a vencer (para alertas)
-('Omeprazol', '20mg x 14 cápsulas', 'Inhibidor de bomba de protones para gastritis', 16.00, '2024-11-15', 45, 1),
-('Ranitidina', '150mg x 20 tabletas', 'Antiácido bloqueador H2', 14.00, '2024-11-18', 40, 1);
+('Omeprazol', '20mg x 14 cápsulas', 'Inhibidor de bomba de protones para gastritis', 16.00, '2025-01-15', 45, 1),
+('Ranitidina', '150mg x 20 tabletas', 'Antiácido bloqueador H2', 14.00, '2025-01-20', 40, 1);
 
 -- Insertar clientes (farmacias y boticas reales de Los Olivos y alrededores)
 INSERT INTO cliente (nombre, documento, direccion) VALUES
@@ -285,11 +285,11 @@ INSERT INTO proveedor (nombre, contacto, direccion) VALUES
 
 -- Insertar pedidos de ejemplo con fechas válidas
 INSERT INTO pedido (fecha, estado, id_proveedor) VALUES
-('2024-10-15 10:30:00', 'RECIBIDO', 1),
-('2024-10-20 14:15:00', 'RECIBIDO', 2),
-('2024-10-25 09:45:00', 'ENVIADO', 3),
-('2024-11-01 11:20:00', 'PENDIENTE', 4),
-('2024-11-05 16:00:00', 'PENDIENTE', 5);
+('2025-01-05 10:30:00', 'RECIBIDO', 1),
+('2025-01-10 14:15:00', 'RECIBIDO', 2),
+('2025-01-15 09:45:00', 'ENVIADO', 3),
+('2025-01-20 11:20:00', 'PENDIENTE', 4),
+('2025-01-25 16:00:00', 'PENDIENTE', 5);
 
 -- Insertar detalles de pedidos
 INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad) VALUES
@@ -317,14 +317,14 @@ INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad) VALUES
 
 -- Insertar ventas de ejemplo con fechas válidas
 INSERT INTO venta (fecha, id_cliente, id_usuario, total) VALUES
-('2024-10-18 09:15:00', 1, 2, 85.50),
-('2024-10-19 11:30:00', 2, 2, 142.80),
-('2024-10-22 14:45:00', 3, 3, 67.20),
-('2024-10-25 10:00:00', 4, 2, 198.50),
-('2024-10-28 15:20:00', 5, 3, 124.30),
-('2024-11-02 09:45:00', 6, 2, 89.90),
-('2024-11-04 13:10:00', 7, 3, 156.70),
-('2024-11-06 16:30:00', 8, 2, 73.50);
+('2025-01-05 09:15:00', 1, 2, 85.50),
+('2025-01-08 11:30:00', 2, 2, 142.80),
+('2025-01-10 14:45:00', 3, 3, 67.20),
+('2025-01-12 10:00:00', 4, 2, 198.50),
+('2025-01-15 15:20:00', 5, 3, 124.30),
+('2025-01-18 09:45:00', 6, 2, 89.90),
+('2025-01-20 13:10:00', 7, 3, 156.70),
+('2025-01-22 16:30:00', 8, 2, 73.50);
 
 -- Insertar detalles de ventas
 INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio) VALUES
