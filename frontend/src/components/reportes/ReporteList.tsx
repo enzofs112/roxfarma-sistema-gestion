@@ -79,6 +79,7 @@ const ReporteList: React.FC = () => {
             <thead>
               <tr>
                 <th>Producto</th>
+                <th>Presentación</th>
                 <th>Categoría</th>
                 <th>Stock Actual</th>
                 <th>Precio</th>
@@ -88,6 +89,7 @@ const ReporteList: React.FC = () => {
               {alertas.stockBajo.map((producto: any) => (
                 <tr key={producto.idProducto}>
                   <td>{producto.nombre}</td>
+                  <td>{producto.presentacion || '-'}</td>
                   <td>{producto.categoria?.nombre || 'N/A'}</td>
                   <td className="stock-bajo">{producto.stock}</td>
                   <td>S/ {producto.precio.toFixed(2)}</td>
@@ -107,6 +109,7 @@ const ReporteList: React.FC = () => {
             <thead>
               <tr>
                 <th>Producto</th>
+                <th>Presentación</th>
                 <th>Categoría</th>
                 <th>Fecha Vencimiento</th>
                 <th>Stock</th>
@@ -116,6 +119,7 @@ const ReporteList: React.FC = () => {
               {alertas.proximosVencer.map((producto: any) => (
                 <tr key={producto.idProducto}>
                   <td>{producto.nombre}</td>
+                  <td>{producto.presentacion || '-'}</td>
                   <td>{producto.categoria?.nombre || 'N/A'}</td>
                   <td className="fecha-vencimiento">
                     {producto.fechaVencimiento 

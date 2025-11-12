@@ -73,7 +73,14 @@ const PedidoList: React.FC = () => {
           {pedidos.map(pedido => (
             <tr key={pedido.idPedido}>
               <td>{pedido.idPedido}</td>
-              <td>{new Date(pedido.fecha).toLocaleString()}</td>
+              <td>
+                {pedido.fecha 
+                  ? (() => {
+                      const fecha = new Date(pedido.fecha);
+                      return isNaN(fecha.getTime()) ? 'N/A' : fecha.toLocaleString('es-PE');
+                    })()
+                  : 'N/A'}
+              </td>
               <td>{pedido.proveedor.nombre}</td>
               <td>
                 <span style={{ 

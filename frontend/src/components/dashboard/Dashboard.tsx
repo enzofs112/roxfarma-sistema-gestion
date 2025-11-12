@@ -94,7 +94,7 @@ const Dashboard: React.FC = () => {
               <ul>
                 {alertas.stockBajo.slice(0, 5).map((p: any) => (
                   <li key={p.idProducto}>
-                    {p.nombre} - Stock: {p.stock}
+                    {p.nombre} {p.presentacion && `(${p.presentacion})`} - Stock: {p.stock}
                   </li>
                 ))}
               </ul>
@@ -107,7 +107,7 @@ const Dashboard: React.FC = () => {
               <ul>
                 {alertas.proximosVencer.slice(0, 5).map((p: any) => (
                   <li key={p.idProducto}>
-                    {p.nombre} - Vence: {p.fechaVencimiento 
+                    {p.nombre} {p.presentacion && `(${p.presentacion})`} - Vence: {p.fechaVencimiento 
                       ? new Date(p.fechaVencimiento).toLocaleDateString()
                       : 'N/A'}
                   </li>

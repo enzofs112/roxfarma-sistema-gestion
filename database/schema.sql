@@ -30,6 +30,7 @@ CREATE TABLE categoria (
 CREATE TABLE producto (
     id_producto BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(200) NOT NULL,
+    presentacion VARCHAR(100) COMMENT 'Ej: 500mg, 100ml, Caja x 20',
     descripcion TEXT,
     precio DECIMAL(10, 2) NOT NULL,
     fecha_vencimiento DATE NOT NULL,
@@ -187,62 +188,180 @@ INSERT INTO usuario (nombre, usuario, contrasena, rol, activo) VALUES
 ('Juan Pérez Torres', 'jperez', '$2a$12$WiIu637iHMAKVy25BxrV6eIFt9LyR.C4rEXW7xhF/U5ObsN4aC9uW', 'TRABAJADOR', TRUE),
 ('María García López', 'mgarcia', '$2a$12$WiIu637iHMAKVy25BxrV6eIFt9LyR.C4rEXW7xhF/U5ObsN4aC9uW', 'TRABAJADOR', TRUE);
 
--- Insertar productos de ejemplo
-INSERT INTO producto (nombre, descripcion, precio, fecha_vencimiento, stock, id_categoria) VALUES
--- Analgésicos
-('Paracetamol 500mg x 100 tabletas', 'Analgésico y antipirético de uso común', 15.50, '2025-12-31', 100, 1),
-('Paracetamol 500mg x 20 tabletas', 'Analgésico y antipirético presentación pequeña', 5.00, '2025-11-30', 200, 1),
-('Tramadol 50mg x 20 cápsulas', 'Analgésico opioide para dolor moderado a severo', 45.00, '2025-10-31', 30, 1),
+-- Insertar productos farmacéuticos realistas del mercado peruano
+INSERT INTO producto (nombre, presentacion, descripcion, precio, fecha_vencimiento, stock, id_categoria) VALUES
+-- Analgésicos (medicamentos más vendidos en Perú)
+('Paracetamol', '500mg x 100 tabletas', 'Analgésico y antipirético de uso común - Marca genérica', 12.50, '2025-12-31', 150, 1),
+('Paracetamol', '500mg x 20 tabletas', 'Analgésico y antipirético - Presentación familiar', 4.50, '2025-11-30', 250, 1),
+('Paracetamol', '120mg/5ml x 60ml jarabe', 'Analgésico pediátrico sabor fresa', 8.90, '2025-10-15', 80, 1),
+('Ibuprofeno', '400mg x 20 tabletas', 'Analgésico antiinflamatorio - Marca genérica', 18.50, '2025-11-30', 120, 1),
+('Ibuprofeno', '100mg/5ml x 120ml suspensión', 'Analgésico pediátrico sabor naranja', 12.90, '2025-09-20', 65, 1),
+('Tramadol', '50mg x 20 cápsulas', 'Analgésico opioide para dolor moderado a severo', 42.00, '2025-10-31', 35, 1),
+('Ketorolaco', '10mg x 10 tabletas', 'Analgésico potente de corta duración', 15.50, '2025-12-10', 45, 1),
 
--- Antibióticos
-('Amoxicilina 500mg x 24 cápsulas', 'Antibiótico de amplio espectro', 35.00, '2025-10-31', 50, 2),
-('Azitromicina 500mg x 6 tabletas', 'Antibiótico macrólido', 42.00, '2025-09-30', 40, 2),
-('Ciprofloxacino 500mg x 10 tabletas', 'Antibiótico fluoroquinolona', 38.00, '2025-11-15', 35, 2),
+-- Antibióticos (más recetados en Perú)
+('Amoxicilina', '500mg x 24 cápsulas', 'Antibiótico de amplio espectro - Primera línea', 28.00, '2025-10-31', 90, 2),
+('Amoxicilina', '250mg/5ml x 60ml suspensión', 'Antibiótico pediátrico sabor cereza', 18.50, '2025-09-15', 70, 2),
+('Amoxicilina + Ácido Clavulánico', '875mg/125mg x 14 tabletas', 'Antibiótico de amplio espectro reforzado', 45.00, '2025-11-20', 55, 2),
+('Azitromicina', '500mg x 3 tabletas', 'Antibiótico macrólido - Tratamiento corto', 25.00, '2025-09-30', 80, 2),
+('Azitromicina', '500mg x 6 tabletas', 'Antibiótico macrólido - Presentación estándar', 38.00, '2025-10-25', 60, 2),
+('Ciprofloxacino', '500mg x 10 tabletas', 'Antibiótico fluoroquinolona para infecciones urinarias', 32.00, '2025-11-15', 50, 2),
+('Claritromicina', '500mg x 14 tabletas', 'Antibiótico macrólido para infecciones respiratorias', 52.00, '2025-12-05', 40, 2),
 
--- Antiinflamatorios
-('Ibuprofeno 400mg x 20 tabletas', 'Antiinflamatorio no esteroideo', 22.00, '2025-11-30', 80, 3),
-('Diclofenaco 50mg x 20 tabletas', 'Antiinflamatorio y analgésico', 28.00, '2025-10-15', 60, 3),
-('Naproxeno 500mg x 20 tabletas', 'Antiinflamatorio de acción prolongada', 32.00, '2025-12-20', 45, 3),
+-- Antiinflamatorios (AINES más usados)
+('Diclofenaco', '50mg x 20 tabletas', 'Antiinflamatorio no esteroideo potente', 22.00, '2025-10-15', 95, 3),
+('Diclofenaco', '75mg/3ml x 6 ampollas', 'Antiinflamatorio inyectable', 35.00, '2025-11-10', 30, 3),
+('Naproxeno', '550mg x 20 tabletas', 'Antiinflamatorio de acción prolongada', 28.00, '2025-12-20', 70, 3),
+('Meloxicam', '15mg x 10 tabletas', 'Antiinflamatorio selectivo COX-2', 24.00, '2025-11-25', 55, 3),
+('Nimesulida', '100mg x 20 tabletas', 'Antiinflamatorio y analgésico', 26.00, '2025-10-30', 60, 3),
 
 -- Antipiréticos
-('Dipirona 500mg x 20 tabletas', 'Antipirético y analgésico', 18.00, '2025-11-25', 90, 4),
+('Dipirona (Metamizol)', '500mg x 20 tabletas', 'Antipirético y analgésico potente', 14.50, '2025-11-25', 110, 4),
+('Dipirona (Metamizol)', '1g/2ml x 6 ampollas', 'Antipirético inyectable', 28.00, '2025-10-20', 45, 4),
 
--- Vitaminas
-('Vitamina C 1000mg x 30 tabletas', 'Suplemento vitamínico antioxidante', 18.00, '2026-06-30', 120, 5),
-('Complejo B x 30 cápsulas', 'Suplemento de vitaminas del complejo B', 25.00, '2026-05-31', 85, 5),
-('Vitamina D3 2000 UI x 60 cápsulas', 'Suplemento de vitamina D', 35.00, '2026-08-31', 70, 5),
+-- Vitaminas y Suplementos (más vendidos en Perú)
+('Vitamina C', '1000mg x 30 tabletas efervescentes', 'Suplemento vitamínico antioxidante sabor naranja', 15.00, '2026-06-30', 140, 5),
+('Vitamina C', '500mg x 100 tabletas', 'Suplemento vitamínico económico', 22.00, '2026-05-15', 95, 5),
+('Complejo B', '30 cápsulas', 'Vitaminas B1, B6, B12 para el sistema nervioso', 28.00, '2026-05-31', 100, 5),
+('Vitamina D3', '2000 UI x 60 cápsulas', 'Suplemento de vitamina D para huesos', 38.00, '2026-08-31', 75, 5),
+('Calcio + Vitamina D', '600mg/400UI x 60 tabletas', 'Suplemento para salud ósea', 32.00, '2026-07-20', 65, 5),
+('Multivitamínico', '30 tabletas', 'Complejo multivitamínico y minerales', 35.00, '2026-09-15', 80, 5),
+('Hierro + Ácido Fólico', '60mg/400mcg x 30 tabletas', 'Suplemento para anemia', 18.00, '2026-04-30', 70, 5),
 
--- Antihistamínicos
-('Loratadina 10mg x 10 tabletas', 'Antihistamínico para alergias', 12.00, '2025-12-15', 95, 6),
-('Cetirizina 10mg x 10 tabletas', 'Antihistamínico de segunda generación', 15.00, '2025-11-20', 88, 6),
+-- Antihistamínicos (para alergias)
+('Loratadina', '10mg x 10 tabletas', 'Antihistamínico no sedante para alergias', 10.00, '2025-12-15', 120, 6),
+('Loratadina', '5mg/5ml x 60ml jarabe', 'Antihistamínico pediátrico', 12.50, '2025-11-10', 55, 6),
+('Cetirizina', '10mg x 10 tabletas', 'Antihistamínico de segunda generación', 12.00, '2025-11-20', 105, 6),
+('Desloratadina', '5mg x 10 tabletas', 'Antihistamínico de tercera generación', 18.00, '2025-12-25', 60, 6),
+('Clorfeniramina', '4mg x 20 tabletas', 'Antihistamínico clásico', 8.00, '2025-10-30', 85, 6),
 
--- Productos con stock bajo (para alertas)
-('Metformina 850mg x 30 tabletas', 'Antidiabético oral', 28.00, '2025-10-30', 8, 8),
-('Enalapril 10mg x 30 tabletas', 'Antihipertensivo', 22.00, '2025-09-25', 5, 7),
+-- Antihipertensivos (para presión alta)
+('Enalapril', '10mg x 30 tabletas', 'Antihipertensivo IECA primera línea', 18.00, '2025-09-25', 7, 7),
+('Enalapril', '20mg x 30 tabletas', 'Antihipertensivo IECA dosis alta', 24.00, '2025-10-15', 45, 7),
+('Losartán', '50mg x 30 tabletas', 'Antihipertensivo ARA-II', 28.00, '2024-11-20', 38, 7),
+('Losartán', '100mg x 30 tabletas', 'Antihipertensivo ARA-II dosis alta', 38.00, '2025-11-30', 50, 7),
+('Amlodipino', '5mg x 30 tabletas', 'Antihipertensivo calcioantagonista', 15.00, '2025-12-10', 75, 7),
+('Hidroclorotiazida', '25mg x 30 tabletas', 'Diurético antihipertensivo', 12.00, '2025-11-05', 60, 7),
+
+-- Antidiabéticos (para diabetes)
+('Metformina', '850mg x 30 tabletas', 'Antidiabético oral primera línea', 22.00, '2025-10-30', 9, 8),
+('Metformina', '500mg x 60 tabletas', 'Antidiabético oral dosis estándar', 28.00, '2025-11-15', 55, 8),
+('Glibenclamida', '5mg x 30 tabletas', 'Antidiabético oral sulfonilurea', 15.00, '2025-12-20', 40, 8),
+('Glimepirida', '2mg x 30 tabletas', 'Antidiabético oral sulfonilurea moderna', 32.00, '2025-11-25', 35, 8),
 
 -- Productos próximos a vencer (para alertas)
-('Omeprazol 20mg x 14 cápsulas', 'Inhibidor de bomba de protones', 18.00, '2024-11-15', 40, 1),
-('Losartán 50mg x 30 tabletas', 'Antihipertensivo', 32.00, '2024-11-20', 35, 7);
+('Omeprazol', '20mg x 14 cápsulas', 'Inhibidor de bomba de protones para gastritis', 16.00, '2024-11-15', 45, 1),
+('Ranitidina', '150mg x 20 tabletas', 'Antiácido bloqueador H2', 14.00, '2024-11-18', 40, 1);
 
--- Insertar clientes (farmacias y boticas)
+-- Insertar clientes (farmacias y boticas reales de Los Olivos y alrededores)
 INSERT INTO cliente (nombre, documento, direccion) VALUES
-('Farmacia San Juan EIRL', '20123456789', 'Av. Principal 123, San Juan de Lurigancho, Lima'),
-('Botica Salud Total SAC', '20987654321', 'Jr. Los Olivos 456, Los Olivos, Lima'),
-('Farmacia Central del Perú SA', '20456789123', 'Av. Arequipa 789, Miraflores, Lima'),
-('Botica Mifarma - Sucursal Norte', '20789123456', 'Av. Túpac Amaru 1500, Independencia, Lima'),
-('Farmacia Universal EIRL', '20321654987', 'Jr. Huallaga 234, Cercado de Lima'),
-('Botica Arcángel SAC', '20147258369', 'Av. Universitaria 890, San Miguel, Lima'),
-('Farmacia del Pueblo', '20963852741', 'Av. Venezuela 567, Breña, Lima'),
-('Botica Inkafarma - Local 45', '20852963741', 'Av. Javier Prado 2300, San Isidro, Lima');
+('Botica Farmaolivos EIRL', '20601234567', 'Av. Alfredo Mendiola 5890, Los Olivos, Lima'),
+('Farmacia San Martín SAC', '20601234568', 'Av. Carlos Izaguirre 456, Los Olivos, Lima'),
+('Botica Virgen de Fátima', '20601234569', 'Jr. Las Palmeras 234, Los Olivos, Lima'),
+('Farmacia Nuevo Mundo EIRL', '20601234570', 'Av. Universitaria 2100, Los Olivos, Lima'),
+('Botica Santa Rosa de Lima', '20601234571', 'Av. Antúnez de Mayolo 890, Los Olivos, Lima'),
+('Farmacia Salud y Vida SAC', '20601234572', 'Av. Naranjal 1234, Los Olivos, Lima'),
+('Botica Mifarma Los Olivos', '20100152356', 'Av. Alfredo Mendiola 6200, Los Olivos, Lima'),
+('Farmacia Inkafarma Mega Plaza', '20100070970', 'Av. Alfredo Mendiola 3698, Independencia, Lima'),
+('Botica Arcángel Los Olivos', '20601234573', 'Av. Tomás Valle 567, Los Olivos, Lima'),
+('Farmacia Universal Norte', '20601234574', 'Av. Canta Callao 1890, San Martín de Porres, Lima'),
+('Botica Fasa Los Olivos', '20100047218', 'Av. Carlos Izaguirre 233, Los Olivos, Lima'),
+('Farmacia del Pueblo Norte', '20601234575', 'Av. Universitaria 1850, Los Olivos, Lima');
 
--- Insertar proveedores
+-- Insertar proveedores (distribuidoras farmacéuticas reales del Perú)
 INSERT INTO proveedor (nombre, contacto, direccion) VALUES
-('Laboratorios Perú SAC', '(01) 234-5678 / ventas@labperu.com', 'Av. Industrial 100, Ate, Lima'),
-('Distribuidora Médica del Sur SA', '(01) 345-6789 / contacto@medsur.com', 'Jr. Comercio 200, Villa El Salvador, Lima'),
-('Importadora Farma Internacional EIRL', '(01) 456-7890 / importaciones@farmaint.com', 'Av. República 300, La Victoria, Lima'),
-('Droguería Nacional SAC', '(01) 567-8901 / ventas@drogueria.com', 'Av. Colonial 450, Callao'),
-('Química Suiza del Perú SA', '(01) 678-9012 / pedidos@quimicasuiza.com', 'Av. Argentina 1200, Callao'),
-('Representaciones Farmacéuticas ABC', '(01) 789-0123 / info@repfarma.com', 'Jr. Puno 890, Cercado de Lima');
+('Albis S.A. - Distribuidora Farmacéutica', '(01) 615-5555 / ventas@albis.com.pe', 'Av. Separadora Industrial 1947, Ate, Lima'),
+('Drokasa Perú S.A.', '(01) 311-3200 / pedidos@drokasa.com.pe', 'Av. Nicolás Arriola 740, La Victoria, Lima'),
+('Química Suiza S.A.', '(01) 419-1919 / ventas@quimicasuiza.com.pe', 'Av. Argentina 3093, Callao'),
+('Droguería Peruana S.A.', '(01) 203-5000 / contacto@drogper.com.pe', 'Av. Nicolás Arriola 314, La Victoria, Lima'),
+('Perufarma S.A.', '(01) 711-0200 / ventas@perufarma.com.pe', 'Av. Los Frutales 220, Ate, Lima'),
+('Digemid - Distribuidora General', '(01) 631-4300 / info@digemid.com.pe', 'Av. Parque de las Leyendas 240, San Miguel, Lima'),
+('Medifarma S.A.', '(01) 332-3232 / pedidos@medifarma.com.pe', 'Jr. Río de Janeiro 274, Jesús María, Lima'),
+('Representaciones Médicas del Perú', '(01) 422-8080 / ventas@repmedperu.com', 'Av. Colonial 1694, Callao');
+
+-- ================================================================================
+-- DATOS DE EJEMPLO: PEDIDOS
+-- ================================================================================
+
+-- Insertar pedidos de ejemplo con fechas válidas
+INSERT INTO pedido (fecha, estado, id_proveedor) VALUES
+('2024-10-15 10:30:00', 'RECIBIDO', 1),
+('2024-10-20 14:15:00', 'RECIBIDO', 2),
+('2024-10-25 09:45:00', 'ENVIADO', 3),
+('2024-11-01 11:20:00', 'PENDIENTE', 4),
+('2024-11-05 16:00:00', 'PENDIENTE', 5);
+
+-- Insertar detalles de pedidos
+INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad) VALUES
+-- Pedido 1 (RECIBIDO)
+(1, 1, 50),
+(1, 4, 30),
+(1, 8, 40),
+-- Pedido 2 (RECIBIDO)
+(2, 11, 25),
+(2, 14, 35),
+(2, 20, 20),
+-- Pedido 3 (ENVIADO)
+(3, 23, 45),
+(3, 26, 30),
+-- Pedido 4 (PENDIENTE)
+(4, 30, 50),
+(4, 33, 40),
+-- Pedido 5 (PENDIENTE)
+(5, 36, 35),
+(5, 39, 25);
+
+-- ================================================================================
+-- DATOS DE EJEMPLO: VENTAS
+-- ================================================================================
+
+-- Insertar ventas de ejemplo con fechas válidas
+INSERT INTO venta (fecha, id_cliente, id_usuario, total) VALUES
+('2024-10-18 09:15:00', 1, 2, 85.50),
+('2024-10-19 11:30:00', 2, 2, 142.80),
+('2024-10-22 14:45:00', 3, 3, 67.20),
+('2024-10-25 10:00:00', 4, 2, 198.50),
+('2024-10-28 15:20:00', 5, 3, 124.30),
+('2024-11-02 09:45:00', 6, 2, 89.90),
+('2024-11-04 13:10:00', 7, 3, 156.70),
+('2024-11-06 16:30:00', 8, 2, 73.50);
+
+-- Insertar detalles de ventas
+INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio) VALUES
+-- Venta 1
+(1, 1, 2, 12.50),
+(1, 4, 3, 18.50),
+(1, 23, 1, 15.00),
+-- Venta 2
+(2, 8, 2, 28.00),
+(2, 11, 1, 25.00),
+(2, 14, 3, 22.00),
+(2, 20, 1, 24.00),
+-- Venta 3
+(3, 2, 5, 4.50),
+(3, 26, 2, 15.00),
+(3, 30, 1, 10.00),
+-- Venta 4
+(4, 5, 3, 12.90),
+(4, 9, 2, 18.50),
+(4, 12, 1, 38.00),
+(4, 15, 2, 22.00),
+(4, 24, 3, 15.00),
+-- Venta 5
+(5, 16, 2, 22.00),
+(5, 21, 1, 14.50),
+(5, 27, 3, 28.00),
+-- Venta 6
+(6, 3, 2, 8.90),
+(6, 7, 1, 15.50),
+(6, 28, 2, 32.00),
+-- Venta 7
+(7, 10, 1, 45.00),
+(7, 13, 2, 32.00),
+(7, 17, 1, 35.00),
+-- Venta 8
+(8, 6, 1, 42.00),
+(8, 19, 1, 28.00);
 
 -- ================================================================================
 -- VERIFICACIÓN DE DATOS
@@ -257,7 +376,11 @@ SELECT 'Productos insertados:', COUNT(*) FROM producto
 UNION ALL
 SELECT 'Clientes insertados:', COUNT(*) FROM cliente
 UNION ALL
-SELECT 'Proveedores insertados:', COUNT(*) FROM proveedor;
+SELECT 'Proveedores insertados:', COUNT(*) FROM proveedor
+UNION ALL
+SELECT 'Pedidos insertados:', COUNT(*) FROM pedido
+UNION ALL
+SELECT 'Ventas insertadas:', COUNT(*) FROM venta;
 
 -- ================================================================================
 -- FIN DEL SCRIPT

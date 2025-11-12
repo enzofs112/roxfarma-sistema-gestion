@@ -82,6 +82,7 @@ const ProductoList: React.FC = () => {
         <thead>
           <tr>
             <th>Nombre</th>
+            <th>Presentación</th>
             <th>Categoría</th>
             <th>Precio</th>
             <th>Stock</th>
@@ -93,6 +94,7 @@ const ProductoList: React.FC = () => {
           {filteredProductos.map(producto => (
             <tr key={producto.idProducto} className={producto.stock < 10 ? 'stock-bajo' : ''}>
               <td>{producto.nombre}</td>
+              <td>{producto.presentacion || '-'}</td>
               <td>{producto.categoria.nombre}</td>
               <td>S/ {producto.precio.toFixed(2)}</td>
               <td>

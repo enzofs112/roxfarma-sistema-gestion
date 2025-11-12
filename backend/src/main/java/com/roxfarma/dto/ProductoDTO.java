@@ -22,6 +22,9 @@ public class ProductoDTO {
     @Size(max = 200, message = "El nombre no puede exceder 200 caracteres")
     private String nombre;
 
+    @Size(max = 100, message = "La presentación no puede exceder 100 caracteres")
+    private String presentacion; 
+
     @Size(max = 1000, message = "La descripción no puede exceder 1000 caracteres")
     private String descripcion;
 

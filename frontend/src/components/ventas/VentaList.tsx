@@ -72,7 +72,14 @@ const VentaList: React.FC = () => {
           {ventas.map(venta => (
             <tr key={venta.idVenta}>
               <td>{venta.idVenta}</td>
-              <td>{new Date(venta.fecha).toLocaleString()}</td>
+              <td>
+                {venta.fecha 
+                  ? (() => {
+                      const fecha = new Date(venta.fecha);
+                      return isNaN(fecha.getTime()) ? 'N/A' : fecha.toLocaleString('es-PE');
+                    })()
+                  : 'N/A'}
+              </td>
               <td>{venta.cliente.nombre}</td>
               <td>{venta.usuario.nombre}</td>
               <td>S/ {venta.total.toFixed(2)}</td>

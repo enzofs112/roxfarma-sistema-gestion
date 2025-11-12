@@ -83,7 +83,10 @@ const UsuarioList: React.FC = () => {
                 </td>
                 <td>
                   {usuario.fechaCreacion 
-                    ? new Date(usuario.fechaCreacion).toLocaleDateString() 
+                    ? (() => {
+                        const fecha = new Date(usuario.fechaCreacion);
+                        return isNaN(fecha.getTime()) ? 'N/A' : fecha.toLocaleDateString('es-PE');
+                      })()
                     : 'N/A'}
                 </td>
                 <td>

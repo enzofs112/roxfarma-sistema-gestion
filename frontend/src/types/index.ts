@@ -30,6 +30,7 @@ export interface Categoria {
 export interface Producto {
   idProducto: number;
   nombre: string;
+  presentacion?: string; // Ej: "500mg", "100ml", "Caja x 20"
   descripcion?: string;
   precio: number;
   fechaVencimiento: string;
@@ -101,6 +102,7 @@ export interface AuthResponse {
 
 export interface ProductoDTO {
   nombre: string;
+  presentacion?: string; // Ej: "500mg", "100ml", "Caja x 20"
   descripcion?: string;
   precio: number;
   fechaVencimiento: string;

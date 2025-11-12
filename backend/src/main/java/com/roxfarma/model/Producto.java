@@ -33,6 +33,9 @@ public class Producto {
     @Column(nullable = false, length = 200)
     private String nombre;
 
+    @Column(length = 100)
+    private String presentacion;
+
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 

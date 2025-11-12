@@ -17,6 +17,7 @@ const ProductoForm: React.FC = () => {
   
   const [formData, setFormData] = useState<ProductoDTO>({
     nombre: '',
+    presentacion: '',
     descripcion: '',
     precio: 0,
     stock: 0,
@@ -47,6 +48,7 @@ const ProductoForm: React.FC = () => {
       const producto = await productoService.obtenerProducto(Number(id));
       setFormData({
         nombre: producto.nombre,
+        presentacion: producto.presentacion || '',
         descripcion: producto.descripcion || '',
         precio: producto.precio,
         stock: producto.stock,
@@ -99,7 +101,19 @@ const ProductoForm: React.FC = () => {
             required
             value={formData.nombre}
             onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+            placeholder="Ej: Paracetamol"
           />
+        </div>
+
+        <div className="form-group">
+          <label>Presentación</label>
+          <input
+            type="text"
+            value={formData.presentacion}
+            onChange={(e) => setFormData({ ...formData, presentacion: e.target.value })}
+            placeholder="Ej: 500mg, 100ml, Caja x 20"
+          />
+          <small className="form-hint">Especifica la cantidad o tamaño del producto</small>
         </div>
 
         <div className="form-group">
