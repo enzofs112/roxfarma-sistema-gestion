@@ -59,7 +59,8 @@ const PedidoList: React.FC = () => {
 
       {error && <Alert type="error" message={error} onClose={() => setError('')} />}
 
-      <table className="data-table">
+      <div className="table-container">
+        <table className="data-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -108,6 +109,7 @@ const PedidoList: React.FC = () => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

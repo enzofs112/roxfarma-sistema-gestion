@@ -54,7 +54,8 @@ const ProveedorList: React.FC = () => {
 
       {error && <Alert type="error" message={error} onClose={() => setError('')} />}
 
-      <table className="data-table">
+      <div className="table-container">
+        <table className="data-table">
         <thead>
           <tr>
             <th>Nombre</th>
@@ -81,6 +82,7 @@ const ProveedorList: React.FC = () => {
           ))}
         </tbody>
       </table>
+      </div>
 
       {deleteId && (
         <ConfirmDialog

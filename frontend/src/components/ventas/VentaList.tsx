@@ -57,7 +57,8 @@ const VentaList: React.FC = () => {
 
       {error && <Alert type="error" message={error} onClose={() => setError('')} />}
 
-      <table className="data-table">
+      <div className="table-container">
+        <table className="data-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -92,6 +93,7 @@ const VentaList: React.FC = () => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

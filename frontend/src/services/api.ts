@@ -2,12 +2,10 @@ import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 
 /**
  * Configuración centralizada de Axios para comunicación con el backend.
- * 
  * Características:
  * - Base URL configurable
  * - Interceptores para token JWT automático
  * - Manejo de errores 401 (redirección a login)
- * - Headers por defecto
  */
 
 // Crear instancia de Axios con configuración base
@@ -16,7 +14,7 @@ const api: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, // 10 segundos de timeout
+  timeout: 10000, 
 });
 
 /**
@@ -69,7 +67,6 @@ api.interceptors.response.use(
     }
     
     if (error.response?.status === 403) {
-      // Sin permisos - mostrar mensaje
       console.warn('⚠️ Sin permisos para acceder a este recurso');
     }
     

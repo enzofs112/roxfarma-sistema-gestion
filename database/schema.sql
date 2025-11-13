@@ -1,6 +1,5 @@
 -- ================================================================================
 -- SCRIPT DE CREACIÓN DE BASE DE DATOS - SISTEMA ROXFARMA
--- Universidad Tecnológica del Perú (UTP)
 -- Curso: Integrador de Sistemas
 -- ================================================================================
 

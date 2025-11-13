@@ -75,7 +75,8 @@ const ReporteList: React.FC = () => {
       <div className="reporte-section">
         <h3>⚠️ Productos con Stock Bajo</h3>
         {alertas && alertas.stockBajo && alertas.stockBajo.length > 0 ? (
-          <table className="reporte-table">
+          <div className="table-container">
+            <table className="reporte-table">
             <thead>
               <tr>
                 <th>Producto</th>
@@ -97,6 +98,7 @@ const ReporteList: React.FC = () => {
               ))}
             </tbody>
           </table>
+          </div>
         ) : (
           <div className="empty-state">✅ No hay productos con stock bajo</div>
         )}
@@ -105,7 +107,8 @@ const ReporteList: React.FC = () => {
       <div className="reporte-section">
         <h3>⏰ Productos Próximos a Vencer</h3>
         {alertas && alertas.proximosVencer && alertas.proximosVencer.length > 0 ? (
-          <table className="reporte-table">
+          <div className="table-container">
+            <table className="reporte-table">
             <thead>
               <tr>
                 <th>Producto</th>
@@ -131,6 +134,7 @@ const ReporteList: React.FC = () => {
               ))}
             </tbody>
           </table>
+          </div>
         ) : (
           <div className="empty-state">✅ No hay productos próximos a vencer</div>
         )}

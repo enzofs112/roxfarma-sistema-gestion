@@ -78,7 +78,8 @@ const ProductoList: React.FC = () => {
         />
       </div>
 
-      <table className="data-table">
+      <div className="table-container">
+        <table className="data-table">
         <thead>
           <tr>
             <th>Nombre</th>
@@ -125,6 +126,7 @@ const ProductoList: React.FC = () => {
           ))}
         </tbody>
       </table>
+      </div>
 
       {deleteId && (
         <ConfirmDialog

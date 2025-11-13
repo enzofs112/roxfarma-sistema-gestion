@@ -68,13 +68,11 @@ class VentaServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Configurar cliente
         cliente = new Cliente();
         cliente.setIdCliente(1L);
         cliente.setNombre("Juan Pérez");
         cliente.setDocumento("12345678");
 
-        // Configurar producto
         Categoria categoria = new Categoria();
         categoria.setIdCategoria(1L);
         categoria.setNombre("Analgésicos");
@@ -87,14 +85,12 @@ class VentaServiceTest {
         producto.setFechaVencimiento(LocalDate.now().plusMonths(12));
         producto.setCategoria(categoria);
 
-        // Configurar usuario
         usuario = new Usuario();
         usuario.setIdUsuario(1L);
         usuario.setNombre("Admin");
         usuario.setUsuario("admin");
         usuario.setRol(Rol.ADMINISTRADOR);
 
-        // Configurar SecurityContext
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getName()).thenReturn("admin");
         SecurityContextHolder.setContext(securityContext);

@@ -60,14 +60,11 @@ class UsuarioServiceTest {
 
     @Test
     void debeCrearUsuarioConContrasenaCifrada() {
-        // Given
         when(passwordEncoder.encode(anyString())).thenReturn("$2a$12$hashedPassword");
         when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
 
-        // When
         Usuario resultado = usuarioService.crearUsuario(usuarioDTO);
 
-        // Then
         assertNotNull(resultado);
         assertEquals("Juan Pérez", resultado.getNombre());
         assertEquals("juan", resultado.getUsuario());
@@ -77,14 +74,11 @@ class UsuarioServiceTest {
 
     @Test
     void debeListarTodosLosUsuarios() {
-        // Given
         List<Usuario> usuarios = Arrays.asList(usuario);
         when(usuarioRepository.findAll()).thenReturn(usuarios);
 
-        // When
         List<Usuario> resultado = usuarioService.listarUsuarios();
 
-        // Then
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
         assertEquals("Juan Pérez", resultado.get(0).getNombre());
@@ -93,13 +87,10 @@ class UsuarioServiceTest {
 
     @Test
     void debeObtenerUsuarioPorId() {
-        // Given
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
 
-        // When
         Usuario resultado = usuarioService.obtenerUsuarioPorId(1L);
 
-        // Then
         assertNotNull(resultado);
         assertEquals(1L, resultado.getIdUsuario());
         assertEquals("Juan Pérez", resultado.getNombre());
@@ -108,10 +99,8 @@ class UsuarioServiceTest {
 
     @Test
     void debeLanzarExcepcionCuandoUsuarioNoExiste() {
-        // Given
         when(usuarioRepository.findById(999L)).thenReturn(Optional.empty());
 
-        // When & Then
         assertThrows(ResourceNotFoundException.class, () -> {
             usuarioService.obtenerUsuarioPorId(999L);
         });
@@ -121,13 +110,10 @@ class UsuarioServiceTest {
 
     @Test
     void debeBuscarUsuarioPorNombreUsuario() {
-        // Given
         when(usuarioRepository.findByUsuario("juan")).thenReturn(Optional.of(usuario));
 
-        // When
         Optional<Usuario> resultado = usuarioService.buscarPorNombreUsuario("juan");
 
-        // Then
         assertTrue(resultado.isPresent());
         assertEquals("juan", resultado.get().getUsuario());
         verify(usuarioRepository, times(1)).findByUsuario("juan");
@@ -135,14 +121,11 @@ class UsuarioServiceTest {
 
     @Test
     void debeEliminarUsuario() {
-        // Given
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         doNothing().when(usuarioRepository).delete(any(Usuario.class));
 
-        // When
         usuarioService.eliminarUsuario(1L);
 
-        // Then
         verify(usuarioRepository, times(1)).findById(1L);
         verify(usuarioRepository, times(1)).delete(usuario);
     }

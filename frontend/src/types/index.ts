@@ -1,4 +1,3 @@
-// Enums
 export enum Rol {
   ADMINISTRADOR = 'ADMINISTRADOR',
   TRABAJADOR = 'TRABAJADOR'
@@ -30,7 +29,7 @@ export interface Categoria {
 export interface Producto {
   idProducto: number;
   nombre: string;
-  presentacion?: string; // Ej: "500mg", "100ml", "Caja x 20"
+  presentacion?: string;
   descripcion?: string;
   precio: number;
   fechaVencimiento: string;
@@ -102,7 +101,7 @@ export interface AuthResponse {
 
 export interface ProductoDTO {
   nombre: string;
-  presentacion?: string; // Ej: "500mg", "100ml", "Caja x 20"
+  presentacion?: string;
   descripcion?: string;
   precio: number;
   fechaVencimiento: string;
